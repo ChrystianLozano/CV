@@ -1,0 +1,361 @@
+---
+import "../styles/global.css";
+
+const cv = {
+  name: "Chrystian Lozano",
+  role: "Desarrollador Frontend",
+  summary:
+    "Desarrollador Frontend con enfoque actual en React.js, Tailwind y Astro. Me especializo en optimizar experiencias de usuario, automatizar procesos y convertir requerimientos en productos digitales reales. Busco un equipo donde pueda aportar impacto técnico, buenas prácticas y crecimiento constante.",
+  location: "Irapuato, Guanajuato, México",
+  contact: [
+    { label: "Email", value: "hola@chrystian.dev" },
+    { label: "Redes", value: "@mudo_" },
+  ],
+  highlights: [
+    "Optimización de UX y performance en proyectos web",
+    "Automatización de procesos",
+    "Gestión de plataformas web y sistemas internos",
+  ],
+  experience: [
+    {
+      title: "Webmaster | Instituto Irapuato",
+      meta: "Enero 2012 - Mayo 2024 · Irapuato, Gto.",
+      bullets: [
+        "Diseño y desarrollo de plataformas en React, Astro y Tailwind.",
+        "Implementación de APIs REST, manejo avanzado del DOM y optimización de interactividad.",
+        "Automatización con Google Apps Script.",
+        "Administración de servidores Linux, Apache, Moodle, WordPress y MySQL.",
+        "Administración de Google Workspace for Education, Moodle, GES educativo y página web institucional.",
+        "Desarrollo de sistemas internos clave.",
+      ],
+    },
+  ],
+  projects: [],
+  education: [
+    {
+      title:
+        "Ingeniería en Sistemas Computacionales | Universidad Virtual del Estado de Guanajuato (UVEG)",
+      meta: "2022 - 2026",
+      bullets: [],
+    },
+  ],
+  skills: {
+    tecnicas: [
+      "React.js",
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Bootstrap",
+      "TailwindCSS",
+      "Astro",
+    ],
+    herramientas: [
+      "GitHub Copilot",
+      "OpenAI Codex",
+      "OpenClaw",
+      "N8N",
+      "Google Apps Script",
+      "Google Workspace",
+      "GitHub",
+      "Web Scraping",
+    ],
+    backend: ["Firebase", "MySQL"],
+    cms: ["WordPress", "Moodle", "Shopify", "Pocketbase"],
+    os: ["Linux (CentOS)", "Windows", "macOS"],
+  },
+  certifications: [],
+  languages: [],
+};
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{cv.name} · CV</title>
+    <meta
+      name="description"
+      content={`CV de ${cv.name}, desarrollador frontend especializado en React, Tailwind y Astro.`}
+    />
+    <meta name="robots" content="index,follow" />
+    <meta name="author" content={cv.name} />
+    <meta name="theme-color" content="#0a1222" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${cv.name} · CV`} />
+    <meta
+      property="og:description"
+      content={`CV de ${cv.name}, desarrollador frontend especializado en React, Tailwind y Astro.`}
+    />
+    <meta property="og:locale" content="es_MX" />
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:title" content={`${cv.name} · CV`} />
+    <meta
+      property="twitter:description"
+      content={`CV de ${cv.name}, desarrollador frontend especializado en React, Tailwind y Astro.`}
+    />
+    <link rel="canonical" href="http://localhost:4321/" />
+    <script type="application/ld+json">
+      {JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: cv.name,
+        jobTitle: cv.role,
+        description: cv.summary,
+        email: "mailto:hola@chrystian.dev",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Irapuato",
+          addressRegion: "Guanajuato",
+          addressCountry: "MX",
+        },
+      })}
+    </script>
+  </head>
+  <body>
+    <main>
+      <header class="reveal">
+        <div>
+          <h2>Perfil</h2>
+          <h1 class="typewriter">{cv.name}</h1>
+          <div class="hero-title">{cv.role}</div>
+          <p class="hero-summary">{cv.summary}</p>
+          <div class="badge-list" style="margin-top: 1.3rem;">
+            {cv.highlights.map((item) => <span class="badge">{item}</span>)}
+          </div>
+        </div>
+        <aside class="contact-card reveal">
+          <h2>Contacto</h2>
+          {
+            cv.contact.map((item) => (
+              <div class="contact-item">
+                <span class="contact-label">{item.label}</span>
+                <span class="typewriter">{item.value}</span>
+              </div>
+            ))
+          }
+        </aside>
+      </header>
+
+      <section class="reveal">
+        <div class="section-grid">
+          <h3 class="section-title typewriter">Experiencia</h3>
+          <div class="list">
+            {
+              cv.experience.map((item) => (
+                <article class="item reveal">
+                  <h3 class="typewriter">{item.title}</h3>
+                  <span class="typewriter">{item.meta}</span>
+                  <ul>
+                    {item.bullets.map((bullet) => (
+                      <li class="typewriter">{bullet}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      {
+        cv.projects.length > 0 && (
+          <section class="reveal">
+            <div class="section-grid">
+              <h3 class="section-title typewriter">Proyectos</h3>
+              <div class="list">
+                {cv.projects.map((item) => (
+                  <article class="item reveal">
+                    <h3 class="typewriter">{item.title}</h3>
+                    <span class="typewriter">{item.meta}</span>
+                    <ul>
+                      {item.bullets.map((bullet) => (
+                        <li class="typewriter">{bullet}</li>
+                      ))}
+                    </ul>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        )
+      }
+
+      <section class="reveal">
+        <div class="section-grid">
+          <h3 class="section-title typewriter">Educación</h3>
+          <div class="list">
+            {
+              cv.education.map((item) => (
+                <article class="item reveal">
+                  <h3 class="typewriter">{item.title}</h3>
+                  <span class="typewriter">{item.meta}</span>
+                  {item.bullets.length > 0 && (
+                    <ul>
+                      {item.bullets.map((bullet) => (
+                        <li class="typewriter">{bullet}</li>
+                      ))}
+                    </ul>
+                  )}
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="reveal">
+        <div class="section-grid">
+          <h3 class="section-title typewriter">Habilidades</h3>
+          <div class="columns">
+            <div class="item reveal">
+              <h3 class="typewriter">Técnicas</h3>
+              <div class="badge-list">
+                {
+                  cv.skills.tecnicas.map((skill) => (
+                    <span class="badge typewriter">{skill}</span>
+                  ))
+                }
+              </div>
+            </div>
+            <div class="item reveal">
+              <h3 class="typewriter">Herramientas</h3>
+              <div class="badge-list">
+                {
+                  cv.skills.herramientas.map((skill) => (
+                    <span class="badge typewriter">{skill}</span>
+                  ))
+                }
+              </div>
+            </div>
+            <div class="item reveal">
+              <h3 class="typewriter">Backend</h3>
+              <div class="badge-list">
+                {
+                  cv.skills.backend.map((skill) => (
+                    <span class="badge typewriter">{skill}</span>
+                  ))
+                }
+              </div>
+            </div>
+            <div class="item reveal">
+              <h3 class="typewriter">CMS / SEO</h3>
+              <div class="badge-list">
+                {
+                  cv.skills.cms.map((skill) => (
+                    <span class="badge typewriter">{skill}</span>
+                  ))
+                }
+              </div>
+            </div>
+            <div class="item reveal">
+              <h3 class="typewriter">Sistemas Operativos</h3>
+              <div class="badge-list">
+                {
+                  cv.skills.os.map((skill) => (
+                    <span class="badge typewriter">{skill}</span>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {
+        (cv.certifications.length > 0 || cv.languages.length > 0) && (
+          <section class="reveal">
+            <div class="section-grid">
+              <h3 class="section-title typewriter">
+                Certificaciones & Idiomas
+              </h3>
+              <div class="columns">
+                {cv.certifications.length > 0 && (
+                  <div class="item reveal">
+                    <h3 class="typewriter">Certificaciones</h3>
+                    <ul>
+                      {cv.certifications.map((cert) => (
+                        <li class="typewriter">{cert}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {cv.languages.length > 0 && (
+                  <div class="item reveal">
+                    <h3 class="typewriter">Idiomas</h3>
+                    <ul>
+                      {cv.languages.map((lang) => (
+                        <li class="typewriter">{lang}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+          </section>
+        )
+      }
+
+      <footer class="reveal typewriter">
+        Última actualización: Febrero 2026 · CV de Chrystian Fabian Lozano
+        Ramirez - Hecho en Astro con ❤️
+      </footer>
+    </main>
+    <script is:inline>
+      const elements = document.querySelectorAll(".reveal");
+      const prefersReduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      const typeElement = (el, speed = 16) => {
+        if (!el) return;
+        if (el.dataset.typed === "true" || el.dataset.typing === "true") return;
+        el.dataset.typing = "true";
+        const text = el.dataset.text ?? el.textContent ?? "";
+        el.dataset.text = text;
+        el.textContent = "";
+        let i = 0;
+        const tick = () => {
+          el.textContent = text.slice(0, i);
+          i += 1;
+          if (i <= text.length) {
+            requestAnimationFrame(() => setTimeout(tick, speed));
+          } else {
+            el.dataset.typed = "true";
+            el.dataset.typing = "false";
+          }
+        };
+        tick();
+      };
+
+      const typeInside = (root) => {
+        const targets = root.classList.contains("typewriter")
+          ? [root]
+          : Array.from(root.querySelectorAll(".typewriter"));
+        targets.forEach((el) => typeElement(el));
+      };
+
+      if (prefersReduced) {
+        elements.forEach((el) => el.classList.add("is-visible"));
+        document.querySelectorAll(".typewriter").forEach((el) => {
+          el.dataset.typed = "true";
+        });
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                typeInside(entry.target);
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
+        );
+
+        elements.forEach((el) => observer.observe(el));
+        typeElement(document.querySelector("h1.typewriter"), 18);
+      }
+    </script>
+  </body>
+</html>
