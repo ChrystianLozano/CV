@@ -9,7 +9,11 @@ const cv = {
   location: "Irapuato, Guanajuato, México",
   contact: [
     { label: "Email", value: "hola@chrystian.dev" },
-    { label: "Redes", value: "@mudo_" },
+    {
+      label: "LinkedIn",
+      value: "www.linkedin.com/in/chrystian-fabian-lozano-ramirez",
+      href: "https://www.linkedin.com/in/chrystian-fabian-lozano-ramirez",
+    },
   ],
   highlights: [
     "Optimización de UX y performance en proyectos web",
@@ -130,7 +134,13 @@ const cv = {
             cv.contact.map((item) => (
               <div class="contact-item">
                 <span class="contact-label">{item.label}</span>
-                <span class="typewriter">{item.value}</span>
+                {item.href ? (
+                  <a class="typewriter" href={item.href} target="_blank" rel="noreferrer">
+                    {item.value}
+                  </a>
+                ) : (
+                  <span class="typewriter">{item.value}</span>
+                )}
               </div>
             ))
           }
