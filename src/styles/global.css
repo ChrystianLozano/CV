@@ -179,6 +179,153 @@ section:last-of-type {
   gap: 1.2rem;
 }
 
+.carousel {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.carousel-controls {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: flex-end;
+}
+
+.carousel-btn {
+  background: rgba(10, 18, 34, 0.9);
+  color: var(--accent-cool);
+  border: 2px solid rgba(89, 230, 255, 0.3);
+  padding: 0.35rem 0.7rem;
+  font-family: "Press Start 2P", system-ui, sans-serif;
+  font-size: 0.7rem;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 rgba(5, 8, 20, 0.6);
+}
+
+.carousel-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(240px, 1fr);
+  gap: 1.1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.4rem;
+}
+
+.carousel-track::-webkit-scrollbar {
+  height: 6px;
+}
+
+.carousel-track::-webkit-scrollbar-thumb {
+  background: rgba(89, 230, 255, 0.35);
+  border-radius: 999px;
+}
+
+.carousel-card {
+  scroll-snap-align: start;
+  min-height: 180px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.carousel-card h3 {
+  margin-top: 0.2rem;
+  color: var(--ink);
+}
+
+.carousel-card span {
+  display: block;
+}
+
+.carousel-card:focus-visible {
+  outline: 2px solid var(--accent-cool);
+  outline-offset: 3px;
+}
+
+.carousel-media {
+  border: 2px solid rgba(89, 230, 255, 0.25);
+  box-shadow: 0 0 0 2px rgba(89, 230, 255, 0.18);
+  margin-bottom: 0.8rem;
+  overflow: hidden;
+}
+
+.carousel-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 20;
+}
+
+.modal[aria-hidden="false"] {
+  display: grid;
+  place-items: center;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 8, 20, 0.75);
+  backdrop-filter: blur(4px);
+}
+
+.modal-card {
+  position: relative;
+  z-index: 1;
+  max-width: min(720px, 92vw);
+  background: var(--card);
+  border: 2px solid rgba(89, 230, 255, 0.25);
+  box-shadow:
+    0 0 0 2px rgba(89, 230, 255, 0.15),
+    12px 12px 0 rgba(5, 8, 20, 0.65);
+  padding: 1.4rem;
+}
+
+.modal-media {
+  border: 2px solid rgba(89, 230, 255, 0.2);
+  margin-bottom: 1rem;
+}
+
+.modal-media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.modal-body h3 {
+  margin: 0 0 0.35rem;
+}
+
+.modal-body span {
+  color: var(--muted);
+}
+
+.modal-body p {
+  margin: 0.75rem 0 0;
+  color: var(--muted);
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  background: rgba(10, 18, 34, 0.9);
+  color: var(--accent-cool);
+  border: 2px solid rgba(89, 230, 255, 0.3);
+  padding: 0.25rem 0.45rem;
+  cursor: pointer;
+  font-family: "Press Start 2P", system-ui, sans-serif;
+  font-size: 0.65rem;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
 .item {
   background: var(--card);
   padding: 1.2rem 1.4rem;
@@ -339,5 +486,9 @@ footer {
 
   .columns {
     grid-template-columns: 1fr;
+  }
+
+  .carousel-controls {
+    justify-content: flex-start;
   }
 }

@@ -34,7 +34,64 @@ const cv = {
       ],
     },
   ],
-  projects: [],
+  projects: [
+    {
+      title: "Desarrollo de la página web del Instituto Irapuato",
+      shortTitle: "Web Instituto Irapuato",
+      meta: "HTML · CSS · Bootstrap · JavaScript",
+      description:
+        "Desarrollé y optimicé la plataforma web del Instituto Irapuato, mejorando la accesibilidad y el diseño para estudiantes, profesores y público en general. El proyecto mejoró la comunicación interna y externa, aumentando el tráfico del sitio y la participación de usuarios.",
+      image: "/01.png",
+      imageAlt: "Página web del Instituto Irapuato en desktop y móvil",
+    },
+    {
+      title: "Página web de CAE León",
+      shortTitle: "Web CAE León",
+      meta: "Astro · TailwindCSS",
+      description:
+        "Desarrollé la página web para el CAE León, con un sitio de alto rendimiento, optimizado para SEO y con diseño moderno y responsivo. Astro facilitó una plataforma eficiente y TailwindCSS garantizó accesibilidad y atractivo en diversos dispositivos. El resultado mejora la comunicación y conexión del CAE León con su comunidad.",
+      image: "/02.png",
+      imageAlt: "Página web de CAE León en desktop y móvil",
+    },
+    {
+      title:
+        "Portal Web de SGC del departamento de Servicios Escolares del Instituto Irapuato",
+      shortTitle: "Portal SGC Instituto",
+      meta: "React.js · Firebase · TailwindCSS",
+      description:
+        "GANADOR A PREMIO ESTATAL AL MÉRITO LABORAL. Desarrollé un portal web innovador para mejorar la eficiencia y accesibilidad del Sistema de Gestión de Calidad (SGC) del departamento de servicios escolares. Implementé un sistema de login avanzado en React.js, Firebase para datos y autenticación, y Tailwind CSS para un diseño responsivo y personalizable. Este proyecto refleja mi competencia técnica y compromiso con soluciones digitales para instituciones educativas.",
+      image: "/03.png",
+      imageAlt: "Portal web del SGC con acceso seguro y panel principal",
+    },
+    {
+      title: "Desarrollo Web de Prepa en Línea del Instituto Irapuato",
+      shortTitle: "Prepa en Línea",
+      meta: "Astro · Tailwind · React",
+      description:
+        "Lideré el desarrollo de la página web de Prepa en Línea del Instituto Irapuato, creando una interfaz interactiva y visualmente atractiva. Implementé animaciones con CSS y JavaScript para mejorar la experiencia de usuario y desarrollé formularios de contacto e inscripción con ReactJS para una comunicación fluida y una inscripción sencilla.",
+      image: "/04.png",
+      imageAlt: "Página web de Prepa en Línea con interfaz interactiva",
+    },
+    {
+      title: "Consulta y Publicación de Convenios Institucionales y Egresados",
+      shortTitle: "Convenios & Egresados",
+      meta: "React.js · Firebase · JavaScript · Bootstrap",
+      description:
+        "Desarrollé un sistema de gestión para la consulta de convenios institucionales y datos de egresados, con interfaz dinámica en React.js y datos seguros en Firebase. JavaScript y Bootstrap aseguraron funcionalidad y diseño responsivo, mejorando el acceso a información crucial y la conexión con egresados y entidades asociadas.",
+      image: "/05.png",
+      imageAlt: "Sistema de convenios y egresados con interfaz responsiva",
+    },
+    {
+      title:
+        "Inscripción Digital - Sistema Automatizado de Inscripciones para el Instituto Irapuato",
+      shortTitle: "Inscripción Digital",
+      meta: "React.js · JavaScript · TailwindCSS",
+      description:
+        "Desarrollé un sistema automatizado de inscripciones escolares para el Instituto Irapuato, reduciendo errores en la generación y envío de documentos como contratos y solicitudes mediante React.js y JavaScript. El sistema mejoró la eficiencia del proceso de inscripción, optimizando el flujo de trabajo y la experiencia del usuario.",
+      image: "/06.png",
+      imageAlt: "Sistema de inscripción digital con flujo automatizado",
+    },
+  ],
   education: [
     {
       title:
@@ -172,19 +229,37 @@ const cv = {
         cv.projects.length > 0 && (
           <section class="reveal">
             <div class="section-grid">
-              <h3 class="section-title typewriter">Proyectos</h3>
-              <div class="list">
-                {cv.projects.map((item) => (
-                  <article class="item reveal">
-                    <h3 class="typewriter">{item.title}</h3>
-                    <span class="typewriter">{item.meta}</span>
-                    <ul>
-                      {item.bullets.map((bullet) => (
-                        <li class="typewriter">{bullet}</li>
-                      ))}
-                    </ul>
-                  </article>
-                ))}
+              <h3 class="section-title typewriter">Portafolio</h3>
+              <div class="carousel">
+                <div class="carousel-controls">
+                  <button class="carousel-btn" type="button" data-dir="prev">
+                    ◀
+                  </button>
+                  <button class="carousel-btn" type="button" data-dir="next">
+                    ▶
+                  </button>
+                </div>
+                <div class="carousel-track" aria-label="Proyectos">
+                  {cv.projects.map((item) => (
+                    <button
+                      class="item reveal carousel-card"
+                      type="button"
+                      data-title={item.title}
+                      data-meta={item.meta}
+                      data-description={item.description}
+                      data-image={item.image}
+                      data-image-alt={item.imageAlt || item.title}
+                    >
+                      {item.image && (
+                        <div class="carousel-media">
+                          <img src={item.image} alt={item.imageAlt || item.title} loading="lazy" />
+                        </div>
+                      )}
+                      <h3 class="typewriter">{item.shortTitle || item.title}</h3>
+                      <span class="typewriter">{item.meta}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </section>
@@ -311,6 +386,22 @@ const cv = {
         Ramirez - Hecho en Astro con ❤️
       </footer>
     </main>
+    <div class="modal" id="project-modal" aria-hidden="true">
+      <div class="modal-backdrop" data-close></div>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <button class="modal-close" type="button" data-close aria-label="Cerrar">
+          ✕
+        </button>
+        <div class="modal-media">
+          <img src="" alt="" />
+        </div>
+        <div class="modal-body">
+          <h3 id="modal-title"></h3>
+          <span id="modal-meta"></span>
+          <p id="modal-description"></p>
+        </div>
+      </div>
+    </div>
     <script is:inline>
       const elements = document.querySelectorAll(".reveal");
       const prefersReduced = window.matchMedia(
@@ -366,6 +457,60 @@ const cv = {
         elements.forEach((el) => observer.observe(el));
         typeElement(document.querySelector("h1.typewriter"), 18);
       }
+
+      const track = document.querySelector(".carousel-track");
+      if (track) {
+        document.querySelectorAll(".carousel-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const dir = btn.dataset.dir === "next" ? 1 : -1;
+            const card = track.querySelector(".carousel-card");
+            const amount = card ? card.offsetWidth + 18 : 300;
+            track.scrollBy({ left: dir * amount, behavior: "smooth" });
+          });
+        });
+      }
+
+      const modal = document.querySelector("#project-modal");
+      const modalTitle = document.querySelector("#modal-title");
+      const modalMeta = document.querySelector("#modal-meta");
+      const modalDesc = document.querySelector("#modal-description");
+      const modalImg = modal?.querySelector(".modal-media img");
+
+      const openModal = (card) => {
+        if (!modal) return;
+        modalTitle.textContent = card.dataset.title || "";
+        modalMeta.textContent = card.dataset.meta || "";
+        modalDesc.textContent = card.dataset.description || "";
+        const img = card.dataset.image;
+        const alt = card.dataset.imageAlt || card.dataset.title || "";
+        if (img && modalImg) {
+          modalImg.src = img;
+          modalImg.alt = alt;
+          modalImg.closest(".modal-media").style.display = "block";
+        } else if (modalImg) {
+          modalImg.closest(".modal-media").style.display = "none";
+        }
+        modal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("modal-open");
+      };
+
+      const closeModal = () => {
+        if (!modal) return;
+        modal.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("modal-open");
+      };
+
+      document.querySelectorAll(".carousel-card").forEach((card) => {
+        card.addEventListener("click", () => openModal(card));
+      });
+
+      modal?.querySelectorAll("[data-close]").forEach((el) => {
+        el.addEventListener("click", closeModal);
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeModal();
+      });
     </script>
   </body>
 </html>
