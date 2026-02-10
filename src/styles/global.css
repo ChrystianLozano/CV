@@ -236,6 +236,19 @@ section:last-of-type {
   display: block;
 }
 
+.shorts-carousel .carousel-card {
+  text-decoration: none;
+}
+
+.shorts-carousel .carousel-card h3 {
+  font-size: 0.95rem;
+}
+
+.shorts-carousel .carousel-card span {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
 .carousel-card:focus-visible {
   outline: 2px solid var(--accent-cool);
   outline-offset: 3px;
@@ -294,6 +307,13 @@ section:last-of-type {
   display: block;
   width: 100%;
   height: auto;
+}
+
+.modal-media iframe {
+  width: 100%;
+  height: min(56vw, 360px);
+  border: 0;
+  display: none;
 }
 
 .modal-body h3 {

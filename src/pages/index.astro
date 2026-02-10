@@ -126,6 +126,11 @@ const cv = {
   },
   certifications: [],
   languages: [],
+  interests: [
+    "Videojuegos y diseño de experiencias interactivas",
+    "Desarrollo web y aprendizaje continuo de tecnologías frontend",
+    "Creación de contenido sobre tecnología y gaming",
+  ],
 };
 ---
 
@@ -381,6 +386,21 @@ const cv = {
         )
       }
 
+      <section class="reveal">
+        <div class="section-grid">
+          <h3 class="section-title typewriter">Intereses</h3>
+          <div class="list">
+            <article class="item reveal">
+              <ul>
+                {cv.interests.map((interest) => (
+                  <li class="typewriter">{interest}</li>
+                ))}
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <footer class="reveal typewriter">
         Última actualización: Febrero 2026 · CV de Chrystian Fabian Lozano
         Ramirez - Hecho en Astro con ❤️
@@ -394,6 +414,13 @@ const cv = {
         </button>
         <div class="modal-media">
           <img src="" alt="" />
+          <iframe
+            title="YouTube video"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
         </div>
         <div class="modal-body">
           <h3 id="modal-title"></h3>
@@ -460,7 +487,7 @@ const cv = {
 
       const track = document.querySelector(".carousel-track");
       if (track) {
-        document.querySelectorAll(".carousel-btn").forEach((btn) => {
+        document.querySelectorAll(".carousel-btn:not([data-carousel])").forEach((btn) => {
           btn.addEventListener("click", () => {
             const dir = btn.dataset.dir === "next" ? 1 : -1;
             const card = track.querySelector(".carousel-card");
@@ -483,7 +510,25 @@ const cv = {
         modalDesc.textContent = card.dataset.description || "";
         const img = card.dataset.image;
         const alt = card.dataset.imageAlt || card.dataset.title || "";
-        if (img && modalImg) {
+        const video = card.dataset.video;
+        const iframe = modal?.querySelector("iframe");
+
+        if (video && iframe) {
+          const url = new URL(video);
+          const vid =
+            url.searchParams.get("v") ||
+            url.pathname.split("/").filter(Boolean).pop();
+          iframe.src = vid ? `https://www.youtube.com/embed/${vid}` : "";
+          iframe.style.display = vid ? "block" : "none";
+          if (modalImg) {
+            modalImg.closest(".modal-media").style.display = "none";
+          }
+        } else if (iframe) {
+          iframe.src = "";
+          iframe.style.display = "none";
+        }
+
+        if (img && modalImg && !video) {
           modalImg.src = img;
           modalImg.alt = alt;
           modalImg.closest(".modal-media").style.display = "block";
@@ -498,6 +543,8 @@ const cv = {
         if (!modal) return;
         modal.setAttribute("aria-hidden", "true");
         document.body.classList.remove("modal-open");
+        const iframe = modal?.querySelector("iframe");
+        if (iframe) iframe.src = "";
       };
 
       document.querySelectorAll(".carousel-card").forEach((card) => {
@@ -511,6 +558,7 @@ const cv = {
       document.addEventListener("keydown", (event) => {
         if (event.key === "Escape") closeModal();
       });
+
     </script>
   </body>
 </html>
