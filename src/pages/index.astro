@@ -36,6 +36,15 @@ const cv = {
   ],
   projects: [
     {
+      title: "Thumbnail Battle — Herramienta de optimización visual para YouTube",
+      shortTitle: "Thumbnail Battle",
+      meta: "Astro · TailwindCSS · AI Tools",
+      description:
+        "Desarrollé Thumbnail Battle, una herramienta diseñada para optimizar el impacto visual de miniaturas en YouTube. Utilizando Astro y TailwindCSS, la plataforma permite a los creadores comparar y analizar la efectividad de sus diseños antes de publicarlos. Este proyecto integra buenas prácticas de UX y un enfoque en el rendimiento, ayudando a mejorar el CTR de los canales de contenido digital.",
+      image: "/08.mp4",
+      imageAlt: "Demostración de Thumbnail Battle",
+    },
+    {
       title: "mudo.games — Sitio web automatizado para contenido de YouTube",
       shortTitle: "mudo.games",
       meta: "Astro · JavaScript · youtuberss · GitHub Pages · GitHub Actions · OpenAI Codex",
@@ -267,7 +276,11 @@ const cv = {
                     >
                       {item.image && (
                         <div class="carousel-media">
-                          <img src={item.image} alt={item.imageAlt || item.title} loading="lazy" />
+                          {item.image.endsWith(".mp4") ? (
+                            <video src={item.image} muted loop playsinline autoplay />
+                          ) : (
+                            <img src={item.image} alt={item.imageAlt || item.title} loading="lazy" />
+                          )}
                         </div>
                       )}
                       <h3 class="typewriter">{item.shortTitle || item.title}</h3>
@@ -424,6 +437,7 @@ const cv = {
         </button>
         <div class="modal-media">
           <img src="" alt="" />
+          <video src="" controls playsinline></video>
           <iframe
             title="YouTube video"
             loading="lazy"
@@ -512,39 +526,46 @@ const cv = {
       const modalMeta = document.querySelector("#modal-meta");
       const modalDesc = document.querySelector("#modal-description");
       const modalImg = modal?.querySelector(".modal-media img");
+      const modalVideo = modal?.querySelector(".modal-media video");
+      const modalIframe = modal?.querySelector(".modal-media iframe");
 
       const openModal = (card) => {
         if (!modal) return;
         modalTitle.textContent = card.dataset.title || "";
         modalMeta.textContent = card.dataset.meta || "";
         modalDesc.textContent = card.dataset.description || "";
-        const img = card.dataset.image;
+        
+        const mediaPath = card.dataset.image;
         const alt = card.dataset.imageAlt || card.dataset.title || "";
-        const video = card.dataset.video;
-        const iframe = modal?.querySelector("iframe");
+        const youtubeUrl = card.dataset.video;
 
-        if (video && iframe) {
-          const url = new URL(video);
-          const vid =
-            url.searchParams.get("v") ||
-            url.pathname.split("/").filter(Boolean).pop();
-          iframe.src = vid ? `https://www.youtube.com/embed/${vid}` : "";
-          iframe.style.display = vid ? "block" : "none";
-          if (modalImg) {
-            modalImg.closest(".modal-media").style.display = "none";
+        // Reset visibility
+        if (modalImg) modalImg.style.display = "none";
+        if (modalVideo) {
+          modalVideo.style.display = "none";
+          modalVideo.src = "";
+        }
+        if (modalIframe) {
+          modalIframe.style.display = "none";
+          modalIframe.src = "";
+        }
+
+        if (youtubeUrl && modalIframe) {
+          const url = new URL(youtubeUrl);
+          const vid = url.searchParams.get("v") || url.pathname.split("/").filter(Boolean).pop();
+          if (vid) {
+            modalIframe.src = `https://www.youtube.com/embed/${vid}`;
+            modalIframe.style.display = "block";
           }
-        } else if (iframe) {
-          iframe.src = "";
-          iframe.style.display = "none";
+        } else if (mediaPath?.endsWith(".mp4") && modalVideo) {
+          modalVideo.src = mediaPath;
+          modalVideo.style.display = "block";
+        } else if (mediaPath && modalImg) {
+          modalImg.src = mediaPath;
+          modalImg.alt = alt;
+          modalImg.style.display = "block";
         }
 
-        if (img && modalImg && !video) {
-          modalImg.src = img;
-          modalImg.alt = alt;
-          modalImg.closest(".modal-media").style.display = "block";
-        } else if (modalImg) {
-          modalImg.closest(".modal-media").style.display = "none";
-        }
         modal.setAttribute("aria-hidden", "false");
         document.body.classList.add("modal-open");
       };
@@ -553,8 +574,11 @@ const cv = {
         if (!modal) return;
         modal.setAttribute("aria-hidden", "true");
         document.body.classList.remove("modal-open");
-        const iframe = modal?.querySelector("iframe");
-        if (iframe) iframe.src = "";
+        if (modalIframe) modalIframe.src = "";
+        if (modalVideo) {
+          modalVideo.pause();
+          modalVideo.src = "";
+        }
       };
 
       document.querySelectorAll(".carousel-card").forEach((card) => {

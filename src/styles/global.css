@@ -261,7 +261,8 @@ section:last-of-type {
   overflow: hidden;
 }
 
-.carousel-media img {
+.carousel-media img,
+.carousel-media video {
   display: block;
   width: 100%;
   height: auto;
@@ -289,7 +290,7 @@ section:last-of-type {
 .modal-card {
   position: relative;
   z-index: 1;
-  max-width: min(720px, 92vw);
+  max-width: min(480px, 92vw);
   background: var(--card);
   border: 2px solid rgba(89, 230, 255, 0.25);
   box-shadow:
@@ -301,9 +302,11 @@ section:last-of-type {
 .modal-media {
   border: 2px solid rgba(89, 230, 255, 0.2);
   margin-bottom: 1rem;
+  overflow: hidden;
 }
 
-.modal-media img {
+.modal-media img,
+.modal-media video {
   display: block;
   width: 100%;
   height: auto;
@@ -311,7 +314,7 @@ section:last-of-type {
 
 .modal-media iframe {
   width: 100%;
-  height: min(56vw, 360px);
+  height: min(56vw, 280px);
   border: 0;
   display: none;
 }
