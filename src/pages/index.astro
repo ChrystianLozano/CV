@@ -36,13 +36,25 @@ const cv = {
   ],
   projects: [
     {
-      title: "Thumbnail Battle — Herramienta de optimización visual para YouTube",
+      title: "Whisper Web - Transcriptor de IA 100% Local",
+      shortTitle: "Whisper Web",
+      meta: "React · TypeScript · Tailwind CSS · Transformers.js · WebGPU",
+      description:
+        "Aplicación web de alto rendimiento que transcribe voz a texto en tiempo real directamente en el navegador. Utiliza modelos de Deep Learning (OpenAI Whisper) ejecutados localmente mediante WebGPU y Web Workers, garantizando latencia casi nula y total privacidad de los datos del usuario sin depender de servidores externos. Cuenta con un diseño moderno (Glassmorphism), soporte para múltiples formatos de audio/video y exportación a SRT/JSON.",
+      image: "/09.webm",
+      imageAlt: "Demostración de Whisper Web",
+      link: "https://whisper.chrystian.dev/",
+    },
+    {
+      title:
+        "Thumbnail Battle — Herramienta de optimización visual para YouTube",
       shortTitle: "Thumbnail Battle",
       meta: "Astro · TailwindCSS · AI Tools",
       description:
         "Desarrollé Thumbnail Battle, una herramienta diseñada para optimizar el impacto visual de miniaturas en YouTube. Utilizando Astro y TailwindCSS, la plataforma permite a los creadores comparar y analizar la efectividad de sus diseños antes de publicarlos. Este proyecto integra buenas prácticas de UX y un enfoque en el rendimiento, ayudando a mejorar el CTR de los canales de contenido digital.",
       image: "/08.mp4",
       imageAlt: "Demostración de Thumbnail Battle",
+      link: "https://miniatura.chrystian.dev/",
     },
     {
       title: "mudo.games — Sitio web automatizado para contenido de YouTube",
@@ -52,6 +64,7 @@ const cv = {
         "Diseñé y desarrollé el sitio web mudo.games utilizando Astro como framework principal. La aplicación consume contenido del canal de YouTube de mudo.games mediante la librería youtuberss, permitiendo que la página se actualice automáticamente para mostrar los videos más recientes. El proyecto se despliega en GitHub Pages y utiliza GitHub Actions para automatizar el proceso de actualización y publicación del sitio. El desarrollo fue realizado con apoyo de herramientas de programación asistida por IA (OpenAI Codex), lo que permitió construir un prototipo funcional en aproximadamente 30 minutos.",
       image: "/07.png",
       imageAlt: "Sitio mudo.games con contenido automatizado de YouTube",
+      link: "https://mudo.games/",
     },
     {
       title: "Desarrollo de la página web del Instituto Irapuato",
@@ -152,12 +165,12 @@ const cv = {
 };
 ---
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>Chrystian Fabian Lozano Ramirez · CV</title>
     <meta
       name="description"
@@ -181,20 +194,22 @@ const cv = {
     />
     <link rel="canonical" href="https://chrystian.dev/" />
     <script type="application/ld+json">
-      {JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Person",
-        name: cv.name,
-        jobTitle: cv.role,
-        description: cv.summary,
-        email: "mailto:hola@chrystian.dev",
-        address: {
-          "@type": "PostalAddress",
-          addressLocality: "Irapuato",
-          addressRegion: "Guanajuato",
-          addressCountry: "MX",
-        },
-      })}
+      {
+        JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: cv.name,
+          jobTitle: cv.role,
+          description: cv.summary,
+          email: "mailto:hola@chrystian.dev",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Irapuato",
+            addressRegion: "Guanajuato",
+            addressCountry: "MX",
+          },
+        });
+      }
     </script>
   </head>
   <body>
@@ -216,7 +231,12 @@ const cv = {
               <div class="contact-item">
                 <span class="contact-label">{item.label}</span>
                 {item.href ? (
-                  <a class="typewriter" href={item.href} target="_blank" rel="noreferrer">
+                  <a
+                    class="typewriter"
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     {item.value}
                   </a>
                 ) : (
@@ -273,17 +293,31 @@ const cv = {
                       data-description={item.description}
                       data-image={item.image}
                       data-image-alt={item.imageAlt || item.title}
+                      data-link={item.link}
                     >
                       {item.image && (
                         <div class="carousel-media">
-                          {item.image.endsWith(".mp4") ? (
-                            <video src={item.image} muted loop playsinline autoplay />
+                          {item.image.endsWith(".mp4") ||
+                          item.image.endsWith(".webm") ? (
+                            <video
+                              src={item.image}
+                              muted
+                              loop
+                              playsinline
+                              autoplay
+                            />
                           ) : (
-                            <img src={item.image} alt={item.imageAlt || item.title} loading="lazy" />
+                            <img
+                              src={item.image}
+                              alt={item.imageAlt || item.title}
+                              loading="lazy"
+                            />
                           )}
                         </div>
                       )}
-                      <h3 class="typewriter">{item.shortTitle || item.title}</h3>
+                      <h3 class="typewriter">
+                        {item.shortTitle || item.title}
+                      </h3>
                       <span class="typewriter">{item.meta}</span>
                     </button>
                   ))}
@@ -415,9 +449,11 @@ const cv = {
           <div class="list">
             <article class="item reveal">
               <ul>
-                {cv.interests.map((interest) => (
-                  <li class="typewriter">{interest}</li>
-                ))}
+                {
+                  cv.interests.map((interest) => (
+                    <li class="typewriter">{interest}</li>
+                  ))
+                }
               </ul>
             </article>
           </div>
@@ -431,32 +467,50 @@ const cv = {
     </main>
     <div class="modal" id="project-modal" aria-hidden="true">
       <div class="modal-backdrop" data-close></div>
-      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-        <button class="modal-close" type="button" data-close aria-label="Cerrar">
+      <div
+        class="modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+      >
+        <button
+          class="modal-close"
+          type="button"
+          data-close
+          aria-label="Cerrar"
+        >
           ✕
         </button>
         <div class="modal-media">
           <img src="" alt="" />
-          <video src="" controls playsinline></video>
+          <video src="" controls playsinline autoplay></video>
           <iframe
             title="YouTube video"
             loading="lazy"
             referrerpolicy="strict-origin-when-cross-origin"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-          ></iframe>
+            allowfullscreen></iframe>
         </div>
         <div class="modal-body">
           <h3 id="modal-title"></h3>
           <span id="modal-meta"></span>
           <p id="modal-description"></p>
+          <a
+            id="modal-link"
+            href=""
+            target="_blank"
+            rel="noopener noreferrer"
+            class="badge typewriter"
+            style="display: none; margin-top: 1rem; text-align: center; width: fit-content; text-decoration: none;"
+            >Visitar Proyecto</a
+          >
         </div>
       </div>
     </div>
     <script is:inline>
       const elements = document.querySelectorAll(".reveal");
       const prefersReduced = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
+        "(prefers-reduced-motion: reduce)"
       ).matches;
       const typeElement = (el, speed = 16) => {
         if (!el) return;
@@ -502,7 +556,7 @@ const cv = {
               }
             });
           },
-          { threshold: 0.15, rootMargin: "0px 0px -10% 0px" },
+          { threshold: 0.15, rootMargin: "0px 0px -10% 0px" }
         );
 
         elements.forEach((el) => observer.observe(el));
@@ -511,20 +565,23 @@ const cv = {
 
       const track = document.querySelector(".carousel-track");
       if (track) {
-        document.querySelectorAll(".carousel-btn:not([data-carousel])").forEach((btn) => {
-          btn.addEventListener("click", () => {
-            const dir = btn.dataset.dir === "next" ? 1 : -1;
-            const card = track.querySelector(".carousel-card");
-            const amount = card ? card.offsetWidth + 18 : 300;
-            track.scrollBy({ left: dir * amount, behavior: "smooth" });
+        document
+          .querySelectorAll(".carousel-btn:not([data-carousel])")
+          .forEach((btn) => {
+            btn.addEventListener("click", () => {
+              const dir = btn.dataset.dir === "next" ? 1 : -1;
+              const card = track.querySelector(".carousel-card");
+              const amount = card ? card.offsetWidth + 18 : 300;
+              track.scrollBy({ left: dir * amount, behavior: "smooth" });
+            });
           });
-        });
       }
 
       const modal = document.querySelector("#project-modal");
       const modalTitle = document.querySelector("#modal-title");
       const modalMeta = document.querySelector("#modal-meta");
       const modalDesc = document.querySelector("#modal-description");
+      const modalLink = document.querySelector("#modal-link");
       const modalImg = modal?.querySelector(".modal-media img");
       const modalVideo = modal?.querySelector(".modal-media video");
       const modalIframe = modal?.querySelector(".modal-media iframe");
@@ -534,10 +591,19 @@ const cv = {
         modalTitle.textContent = card.dataset.title || "";
         modalMeta.textContent = card.dataset.meta || "";
         modalDesc.textContent = card.dataset.description || "";
-        
+
         const mediaPath = card.dataset.image;
         const alt = card.dataset.imageAlt || card.dataset.title || "";
         const youtubeUrl = card.dataset.video;
+        const linkUrl = card.dataset.link;
+
+        if (linkUrl && modalLink) {
+          modalLink.href = linkUrl;
+          modalLink.style.display = "inline-block";
+        } else if (modalLink) {
+          modalLink.style.display = "none";
+          modalLink.href = "";
+        }
 
         // Reset visibility
         if (modalImg) modalImg.style.display = "none";
@@ -552,14 +618,20 @@ const cv = {
 
         if (youtubeUrl && modalIframe) {
           const url = new URL(youtubeUrl);
-          const vid = url.searchParams.get("v") || url.pathname.split("/").filter(Boolean).pop();
+          const vid =
+            url.searchParams.get("v") ||
+            url.pathname.split("/").filter(Boolean).pop();
           if (vid) {
             modalIframe.src = `https://www.youtube.com/embed/${vid}`;
             modalIframe.style.display = "block";
           }
-        } else if (mediaPath?.endsWith(".mp4") && modalVideo) {
+        } else if (
+          (mediaPath?.endsWith(".mp4") || mediaPath?.endsWith(".webm")) &&
+          modalVideo
+        ) {
           modalVideo.src = mediaPath;
           modalVideo.style.display = "block";
+          modalVideo.play().catch(() => {});
         } else if (mediaPath && modalImg) {
           modalImg.src = mediaPath;
           modalImg.alt = alt;
@@ -592,7 +664,6 @@ const cv = {
       document.addEventListener("keydown", (event) => {
         if (event.key === "Escape") closeModal();
       });
-
     </script>
   </body>
 </html>
