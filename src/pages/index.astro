@@ -285,9 +285,9 @@ const cv = {
                 </div>
                 <div class="carousel-track" aria-label="Proyectos">
                   {cv.projects.map((item) => (
-                    <button
+                    <article
                       class="item reveal carousel-card"
-                      type="button"
+                      tabindex="0"
                       data-title={item.title}
                       data-meta={item.meta}
                       data-description={item.description}
@@ -318,8 +318,22 @@ const cv = {
                       <h3 class="typewriter">
                         {item.shortTitle || item.title}
                       </h3>
-                      <span class="typewriter">{item.meta}</span>
-                    </button>
+                      <span class="typewriter" style="margin-bottom: 1rem;">
+                        {item.meta}
+                      </span>
+                      {item.link && (
+                        <a
+                          href={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="badge typewriter"
+                          style="display: inline-block; text-decoration: none;"
+                          onclick="event.stopPropagation()"
+                        >
+                          Visitar Proyecto
+                        </a>
+                      )}
+                    </article>
                   ))}
                 </div>
               </div>
@@ -655,6 +669,12 @@ const cv = {
 
       document.querySelectorAll(".carousel-card").forEach((card) => {
         card.addEventListener("click", () => openModal(card));
+        card.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openModal(card);
+          }
+        });
       });
 
       modal?.querySelectorAll("[data-close]").forEach((el) => {
