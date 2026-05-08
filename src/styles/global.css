@@ -410,6 +410,25 @@ body.modal-open {
   color: var(--accent-cool);
 }
 
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.portfolio-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.portfolio-card:hover, .portfolio-card:focus-visible {
+  transform: translateY(-4px);
+  box-shadow:
+    0 0 0 2px rgba(89, 230, 255, 0.3),
+    12px 12px 0 rgba(5, 8, 20, 0.8);
+  outline: none;
+}
+
 .columns {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));

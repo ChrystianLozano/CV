@@ -20,20 +20,6 @@ const cv = {
     "Automatización de procesos",
     "Gestión de plataformas web y sistemas internos",
   ],
-  experience: [
-    {
-      title: "Webmaster | Instituto Irapuato",
-      meta: "Enero 2012 - Mayo 2024 · Irapuato, Gto.",
-      bullets: [
-        "Diseño y desarrollo de plataformas en React, Astro y Tailwind.",
-        "Implementación de APIs REST, manejo avanzado del DOM y optimización de interactividad.",
-        "Automatización con Google Apps Script.",
-        "Administración de servidores Linux, Apache, Moodle, WordPress y MySQL.",
-        "Administración de Google Workspace for Education, Moodle, GES educativo y página web institucional.",
-        "Desarrollo de sistemas internos clave.",
-      ],
-    },
-  ],
   projects: [
     {
       title: "Whisper Web - Transcriptor de IA 100% Local",
@@ -248,45 +234,15 @@ const cv = {
         </aside>
       </header>
 
-      <section class="reveal">
-        <div class="section-grid">
-          <h3 class="section-title typewriter">Experiencia</h3>
-          <div class="list">
-            {
-              cv.experience.map((item) => (
-                <article class="item reveal">
-                  <h3 class="typewriter">{item.title}</h3>
-                  <span class="typewriter">{item.meta}</span>
-                  <ul>
-                    {item.bullets.map((bullet) => (
-                      <li class="typewriter">{bullet}</li>
-                    ))}
-                  </ul>
-                </article>
-              ))
-            }
-          </div>
-        </div>
-      </section>
-
       {
         cv.projects.length > 0 && (
           <section class="reveal">
             <div class="section-grid">
               <h3 class="section-title typewriter">Portafolio</h3>
-              <div class="carousel">
-                <div class="carousel-controls">
-                  <button class="carousel-btn" type="button" data-dir="prev">
-                    ◀
-                  </button>
-                  <button class="carousel-btn" type="button" data-dir="next">
-                    ▶
-                  </button>
-                </div>
-                <div class="carousel-track" aria-label="Proyectos">
+              <div class="portfolio-grid" aria-label="Proyectos">
                   {cv.projects.map((item) => (
                     <article
-                      class="item reveal carousel-card"
+                      class="item reveal portfolio-card"
                       tabindex="0"
                       data-title={item.title}
                       data-meta={item.meta}
@@ -335,7 +291,6 @@ const cv = {
                       )}
                     </article>
                   ))}
-                </div>
               </div>
             </div>
           </section>
@@ -667,7 +622,7 @@ const cv = {
         }
       };
 
-      document.querySelectorAll(".carousel-card").forEach((card) => {
+      document.querySelectorAll(".carousel-card, .portfolio-card").forEach((card) => {
         card.addEventListener("click", () => openModal(card));
         card.addEventListener("keydown", (e) => {
           if (e.key === "Enter" || e.key === " ") {
