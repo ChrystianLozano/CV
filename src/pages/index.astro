@@ -282,11 +282,10 @@ const cv = {
                           href={item.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          class="badge typewriter"
-                          style="display: inline-block; text-decoration: none;"
+                          class="btn-visit"
                           onclick="event.stopPropagation()"
                         >
-                          Visitar Proyecto
+                          Visitar Proyecto ↗
                         </a>
                       )}
                     </article>
@@ -469,9 +468,9 @@ const cv = {
             href=""
             target="_blank"
             rel="noopener noreferrer"
-            class="badge typewriter"
-            style="display: none; margin-top: 1rem; text-align: center; width: fit-content; text-decoration: none;"
-            >Visitar Proyecto</a
+            class="btn-visit"
+            style="display: none;"
+            >Visitar Proyecto ↗</a
           >
         </div>
       </div>
@@ -568,7 +567,7 @@ const cv = {
 
         if (linkUrl && modalLink) {
           modalLink.href = linkUrl;
-          modalLink.style.display = "inline-block";
+          modalLink.style.display = "inline-flex";
         } else if (modalLink) {
           modalLink.style.display = "none";
           modalLink.href = "";

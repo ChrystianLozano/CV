@@ -410,6 +410,33 @@ body.modal-open {
   color: var(--accent-cool);
 }
 
+.btn-visit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid var(--accent-cool);
+  border-radius: 999px;
+  padding: 0.45rem 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: rgba(89, 230, 255, 0.05);
+  color: var(--accent-cool);
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  margin-top: 0.8rem;
+  width: fit-content;
+}
+
+.btn-visit:hover, .btn-visit:focus-visible {
+  background: var(--accent-cool);
+  color: var(--bg-2);
+  box-shadow: 0 0 16px var(--glow);
+  transform: translateY(-2px);
+  outline: none;
+}
+
 .portfolio-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
