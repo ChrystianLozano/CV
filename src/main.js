@@ -23,12 +23,38 @@ if (preloader) {
 }
 
 // Initialize UI and WebGL components immediately as the module executes
-  // 1. Initialize Three.js 3D Scene
+  // 1. Initialize Three.js 3D Scene with WebGL context check
   const canvas = document.querySelector('#webgl');
   let scene3D = null;
   
-  if (canvas) {
-    scene3D = new Cyber3DScene(canvas);
+  try {
+    if (canvas) {
+      // Check for WebGL context availability explicitly first to avoid unhandled WebGLRenderer crashes
+      const canvasTest = document.createElement('canvas');
+      const gl = canvasTest.getContext('webgl') || canvasTest.getContext('experimental-webgl');
+      if (!gl) {
+        throw new Error('WebGL context not supported by browser/GPU.');
+      }
+      scene3D = new Cyber3DScene(canvas);
+    }
+  } catch (error) {
+    console.error("WebGL failed to initialize:", error);
+    
+    // Show compatibility warning banner
+    const warningBanner = document.getElementById('webgl-warning');
+    if (warningBanner) {
+      warningBanner.style.display = 'block';
+    }
+    document.body.classList.add('no-webgl');
+    
+    // Handle closing the warning banner
+    const closeWarningBtn = document.getElementById('close-warning-btn');
+    if (closeWarningBtn && warningBanner) {
+      closeWarningBtn.addEventListener('click', () => {
+        warningBanner.style.display = 'none';
+        document.body.classList.remove('no-webgl');
+      });
+    }
   }
 
   // 2. Select DOM Elements

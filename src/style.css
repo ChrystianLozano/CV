@@ -784,3 +784,124 @@ p {
   letter-spacing: 0.05em;
   color: var(--text-secondary);
 }
+
+/* WebGL Warning Banner */
+.webgl-warning-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  background: rgba(20, 20, 20, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 14px 24px;
+  animation: slideDownWarning 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideDownWarning {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.warning-content {
+  max-width: 1024px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.warning-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.warning-text {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.warning-text strong {
+  color: var(--text-primary);
+  font-family: var(--font-header);
+}
+
+.warning-links {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.warning-btn {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: var(--transition-fast);
+  display: inline-block;
+}
+
+.warning-btn:hover {
+  background: var(--text-primary);
+  color: #000000;
+  border-color: var(--text-primary);
+}
+
+.warning-close {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 4px;
+  transition: var(--transition-fast);
+  line-height: 1;
+}
+
+.warning-close:hover {
+  color: var(--text-primary);
+}
+
+/* Adjust header spacing when warning is active */
+body.no-webgl .apple-header {
+  top: 65px;
+}
+
+body.no-webgl .main-wrapper {
+  padding-top: 65px;
+}
+
+@media (max-width: 900px) {
+  .warning-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .warning-links {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  body.no-webgl .apple-header {
+    top: 135px;
+  }
+  body.no-webgl .main-wrapper {
+    padding-top: 135px;
+  }
+}
+
