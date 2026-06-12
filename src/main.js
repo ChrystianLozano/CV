@@ -193,6 +193,14 @@ if (preloader) {
       // Observe video for lazy load / play management
       videoLazyObserver.observe(video);
 
+      if (video.readyState >= 2) {
+        video.classList.add('media-loaded');
+      } else {
+        video.addEventListener('loadeddata', () => {
+          video.classList.add('media-loaded');
+        });
+      }
+
       video.addEventListener('error', () => {
         video.style.display = 'none';
         if (fallback) fallback.style.display = 'flex';
@@ -200,6 +208,14 @@ if (preloader) {
     }
 
     if (img) {
+      if (img.complete) {
+        img.classList.add('media-loaded');
+      } else {
+        img.addEventListener('load', () => {
+          img.classList.add('media-loaded');
+        });
+      }
+
       img.addEventListener('error', () => {
         img.style.display = 'none';
         if (fallback) fallback.style.display = 'flex';
@@ -246,6 +262,10 @@ if (preloader) {
         videoElement.loop = true;
         videoElement.playsInline = true;
         
+        videoElement.addEventListener('loadeddata', () => {
+          videoElement.classList.add('media-loaded');
+        });
+
         videoElement.addEventListener('error', () => {
           videoElement.style.display = 'none';
           const errorPlaceholder = document.createElement('div');
@@ -260,6 +280,10 @@ if (preloader) {
         imgElement.src = mediaPath;
         imgElement.alt = title;
         
+        imgElement.addEventListener('load', () => {
+          imgElement.classList.add('media-loaded');
+        });
+
         imgElement.addEventListener('error', () => {
           imgElement.style.display = 'none';
           const errorPlaceholder = document.createElement('div');
