@@ -261,13 +261,16 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: center; /* Center content vertically */
-    gap: 4vh; /* Controlled spacing between header and slider */
+    gap: 2vh; /* Reduced spacing to save vertical space */
     overflow: hidden;
     border-bottom: none;
     opacity: 1 !important; /* Force visibility */
     transform: none !important; /* Avoid transforms that break sticky */
-    padding: 6vh 0 2vh 0; /* Add top and bottom padding for breathing room */
+    padding: 4vh 0 2vh 0; /* Reduced top padding for breathing room */
     pointer-events: auto;
+  }
+  #sec-projects.portfolio-section h2 {
+    margin-bottom: 0.5rem; /* Override default 2rem margin to save height */
   }
 }
 
@@ -280,14 +283,14 @@ p {
   margin-left: -50vw;
   margin-right: -50vw;
   overflow: hidden;
-  padding: 1rem 0;
+  padding: 0.5rem 0; /* Reduced padding */
   pointer-events: auto;
 }
 
 .portfolio-slider {
   display: flex;
   -webkit-overflow-scrolling: touch;
-  padding: 0 10vw 2rem 10vw;
+  padding: 0 10vw 1rem 10vw; /* Reduced bottom padding to prevent cut off controls */
   gap: 2.5rem;
   pointer-events: auto;
 }
@@ -320,8 +323,8 @@ p {
 /* Project Slide */
 .project-slide {
   flex: 0 0 80vw;
-  height: 55vh; /* Reduced height to gain vertical breathing room */
-  min-height: 380px; /* Reduced min-height to fit on smaller screens */
+  height: 52vh; /* Reduced height to gain vertical breathing room */
+  min-height: 320px; /* Reduced min-height to fit on smaller screens */
   scroll-snap-align: center;
   position: relative;
   border-radius: 24px;
@@ -534,7 +537,7 @@ p {
 /* Slider Controls */
 .slider-controls {
   max-width: 1060px;
-  margin: 1.5rem auto 0 auto;
+  margin: 0.75rem auto 0 auto; /* Reduced margin to pull up controls */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -885,8 +888,8 @@ p {
   h2 { font-size: 2.5rem; }
   .project-slide {
     flex: 0 0 85vw;
-    height: 55vh;
-    min-height: 420px;
+    height: 52vh;
+    min-height: 320px;
   }
   .slide-content {
     width: 60%;
@@ -943,8 +946,8 @@ p {
 
   .project-slide {
     flex: 0 0 90vw;
-    height: 60vh;
-    min-height: 400px;
+    height: 55vh;
+    min-height: 340px;
   }
   .portfolio-slider {
     padding: 0 5vw 2rem 5vw;
