@@ -186,193 +186,257 @@
             <span class="hero-badge">Gestión de plataformas web y sistemas internos</span>
           </div>
         </section>
+      </div>
 
-        <!-- SECTION 1: PROJECTS -->
+      <!-- SECTION 1: PROJECTS -->
+      <div id="sec-projects-container" class="sticky-projects-container">
         <section class="portfolio-section" id="sec-projects">
-          <h2>Portafolio</h2>
-          <p style="margin-bottom: 3rem; max-width: 600px;">
-            Una selección de productos digitales y plataformas diseñadas con un enfoque absoluto en la velocidad de carga, experiencia de usuario y eficiencia técnica.
-          </p>
-          
-          <div class="portfolio-grid">
-            <!-- Project 1: Mapa de Rutas de Irapuato -->
-            <article class="portfolio-card" 
+          <div class="section-header content-container">
+            <h2>Portafolio</h2>
+              <p style="margin-bottom: 2rem; max-width: 600px;">
+                Una selección de productos digitales y plataformas diseñadas con un enfoque absoluto en la velocidad de carga, experiencia de usuario y eficiencia técnica.
+              </p>
+            </div>
+            
+            <div class="portfolio-slider-wrapper">
+              <div class="portfolio-slider" id="portfolio-slider">
+                <!-- Project 1: Mapa de Rutas de Irapuato -->
+                <div class="project-slide" 
                      data-title="Mapa de Rutas de Irapuato"
                      data-meta="JavaScript · Leaflet.js · OpenStreetMap · Python · GIS"
                      data-description="Aplicación web interactiva para visualizar y simular rutas de transporte público en tiempo real, implementando una interfaz de usuario minimalista y dinámica.&#10;&#10;• Visualización Interactiva: Integración de Leaflet.js y OpenStreetMap para renderizar trazados de rutas y paradas georreferenciadas.&#10;• Motor de Simulación: Desarrollo de algoritmos en JavaScript para animar vehículos en tiempo real con rotación de rumbo automática y detección de paradas.&#10;• Procesamiento de Datos GIS: Limpieza y conversión de datos geográficos viales desde formatos KML/XLSX a JSON estructurados mediante scripts en Python."
                      data-image="11.mp4"
                      data-link="https://rutas-irapuato.chrystian.dev/">
-              <div class="portfolio-media">
-                <video data-src="11.mp4" muted loop playsinline preload="none"></video>
-                <div class="fallback-media-art">
-                  <span class="fallback-text">Rutas de Irapuato</span>
+                  <div class="slide-bg">
+                    <video data-src="11.mp4" muted loop playsinline preload="none"></video>
+                    <div class="fallback-media-art">
+                      <span class="fallback-text">Rutas de Irapuato</span>
+                    </div>
+                  </div>
+                  <div class="slide-overlay"></div>
+                  <div class="slide-content">
+                    <span class="slide-meta">Leaflet.js · GIS · Python</span>
+                    <h3 class="slide-title">Rutas de Irapuato</h3>
+                    <p class="slide-desc">Simulación y visualización de rutas de transporte público en tiempo real.</p>
+                    <div class="slide-actions">
+                      <button class="btn-slide-detail">Detalles</button>
+                      <a href="https://rutas-irapuato.chrystian.dev/" target="_blank" class="btn-slide-link">Visitar ↗</a>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="portfolio-info">
-                <span class="portfolio-meta">Leaflet.js · GIS · Python</span>
-                <h3>Rutas de Irapuato</h3>
-                <p class="portfolio-desc">Simulación y visualización de rutas de transporte público en tiempo real.</p>
-              </div>
-            </article>
 
-            <!-- Project 2: Irapuato Seguro -->
-            <article class="portfolio-card"
+                <!-- Project 2: Irapuato Seguro -->
+                <div class="project-slide"
                      data-title="Irapuato Seguro"
                      data-meta="Python · Leaflet.js · Chart.js · JavaScript · ETL"
                      data-description="Portal de análisis geoespacial de incidencia delictiva. Creador de una aplicación web estática responsive para la visualización de datos de seguridad pública basados en registros oficiales del SESNSP. Programé en Python los scripts ETL para limpiar y modelar más de 39,000 registros históricos mediante algoritmos híbridos de geolocalización. Diseñé el frontend utilizando JavaScript moderno, Leaflet.js para mapeo dinámico interactivo y Chart.js para analíticas."
                      data-image="10.mp4"
                      data-link="https://irapuato-seguro.chrystian.dev/">
-              <div class="portfolio-media">
-                <video data-src="10.mp4" muted loop playsinline preload="none"></video>
-                <div class="fallback-media-art">
-                  <span class="fallback-text">Irapuato Seguro</span>
+                  <div class="slide-bg">
+                    <video data-src="10.mp4" muted loop playsinline preload="none"></video>
+                    <div class="fallback-media-art">
+                      <span class="fallback-text">Irapuato Seguro</span>
+                    </div>
+                  </div>
+                  <div class="slide-overlay"></div>
+                  <div class="slide-content">
+                    <span class="slide-meta">Python · ETL · Leaflet.js</span>
+                    <h3 class="slide-title">Irapuato Seguro</h3>
+                    <p class="slide-desc">Plataforma de análisis y mapeo geoespacial de datos públicos de seguridad.</p>
+                    <div class="slide-actions">
+                      <button class="btn-slide-detail">Detalles</button>
+                      <a href="https://irapuato-seguro.chrystian.dev/" target="_blank" class="btn-slide-link">Visitar ↗</a>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="portfolio-info">
-                <span class="portfolio-meta">Python · ETL · Leaflet.js</span>
-                <h3>Irapuato Seguro</h3>
-                <p class="portfolio-desc">Plataforma de análisis y mapeo geoespacial de datos públicos de seguridad.</p>
-              </div>
-            </article>
 
-            <!-- Project 3: Whisper Web -->
-            <article class="portfolio-card"
+                <!-- Project 3: Whisper Web -->
+                <div class="project-slide"
                      data-title="Whisper Web"
                      data-meta="React · TypeScript · Tailwind CSS · Transformers.js · WebGPU"
                      data-description="Aplicación web de alto rendimiento que transcribe voz a texto en tiempo real directamente en el navegador. Utiliza modelos de Deep Learning (OpenAI Whisper) ejecutados localmente mediante WebGPU y Web Workers, garantizando latencia casi nula y total privacidad del usuario sin depender de servidores externos. Cuenta con un diseño moderno (Glassmorphism), soporte para múltiples formatos y exportaciones."
                      data-image="09.mp4"
                      data-link="https://whisper.chrystian.dev/">
-              <div class="portfolio-media">
-                <video data-src="09.mp4" muted loop playsinline preload="none"></video>
-                <div class="fallback-media-art">
-                  <span class="fallback-text">Whisper Web</span>
+                  <div class="slide-bg">
+                    <video data-src="09.mp4" muted loop playsinline preload="none"></video>
+                    <div class="fallback-media-art">
+                      <span class="fallback-text">Whisper Web</span>
+                    </div>
+                  </div>
+                  <div class="slide-overlay"></div>
+                  <div class="slide-content">
+                    <span class="slide-meta">React · WebGPU · Transformers.js</span>
+                    <h3 class="slide-title">Whisper Web</h3>
+                    <p class="slide-desc">Transcriptor de Inteligencia Artificial que ejecuta modelos de forma local.</p>
+                    <div class="slide-actions">
+                      <button class="btn-slide-detail">Detalles</button>
+                      <a href="https://whisper.chrystian.dev/" target="_blank" class="btn-slide-link">Visitar ↗</a>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="portfolio-info">
-                <span class="portfolio-meta">React · WebGPU · Transformers.js</span>
-                <h3>Whisper Web</h3>
-                <p class="portfolio-desc">Transcriptor de Inteligencia Artificial que ejecuta modelos de forma local.</p>
-              </div>
-            </article>
 
-            <!-- Project 4: Thumbnail Battle -->
-            <article class="portfolio-card"
+                <!-- Project 4: Thumbnail Battle -->
+                <div class="project-slide"
                      data-title="Thumbnail Battle"
                      data-meta="Astro · TailwindCSS · AI Tools"
                      data-description="Desarrollé Thumbnail Battle, una herramienta diseñada para optimizar el impacto visual de miniaturas en YouTube. Utilizando Astro y TailwindCSS, la plataforma permite a los creadores comparar y analizar la efectividad de sus diseños antes de publicarlos. Integra buenas prácticas de UX y un enfoque en el rendimiento, ayudando a mejorar el CTR de los canales."
                      data-image="08.mp4"
                      data-link="https://miniatura.chrystian.dev/">
-              <div class="portfolio-media">
-                <video data-src="08.mp4" muted loop playsinline preload="none"></video>
-                <div class="fallback-media-art">
-                  <span class="fallback-text">Thumbnail Battle</span>
+                  <div class="slide-bg">
+                    <video data-src="08.mp4" muted loop playsinline preload="none"></video>
+                    <div class="fallback-media-art">
+                      <span class="fallback-text">Thumbnail Battle</span>
+                    </div>
+                  </div>
+                  <div class="slide-overlay"></div>
+                  <div class="slide-content">
+                    <span class="slide-meta">Astro · TailwindCSS · UX</span>
+                    <h3 class="slide-title">Thumbnail Battle</h3>
+                    <p class="slide-desc">Comparador visual de miniaturas para la optimización de CTR en canales.</p>
+                    <div class="slide-actions">
+                      <button class="btn-slide-detail">Detalles</button>
+                      <a href="https://miniatura.chrystian.dev/" target="_blank" class="btn-slide-link">Visitar ↗</a>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="portfolio-info">
-                <span class="portfolio-meta">Astro · TailwindCSS · UX</span>
-                <h3>Thumbnail Battle</h3>
-                <p class="portfolio-desc">Comparador visual de miniaturas para la optimización de CTR en canales.</p>
-              </div>
-            </article>
 
-            <!-- Project 5: mudo.games -->
-            <article class="portfolio-card"
+                <!-- Project 5: mudo.games -->
+                <div class="project-slide"
                      data-title="mudo.games"
                      data-meta="Astro · JavaScript · youtuberss · GitHub Pages · OpenAI Codex"
                      data-description="Sitio web automatizado para contenido de YouTube. Diseñé y desarrollé el sitio consumiendo la API de YouTube mediante feeds RSS, permitiendo que la página se actualice automáticamente para mostrar los videos más recientes. El proyecto se despliega en GitHub Pages y utiliza GitHub Actions para automatizar las compilaciones periódicas."
                      data-image="07.png"
                      data-link="https://mudo.games/">
-              <div class="portfolio-media">
-                <img src="07.png" loading="lazy" />
-                <div class="fallback-media-art">
-                  <span class="fallback-text">mudo.games</span>
+                  <div class="slide-bg">
+                    <img src="07.png" loading="lazy" />
+                    <div class="fallback-media-art">
+                      <span class="fallback-text">mudo.games</span>
+                    </div>
+                  </div>
+                  <div class="slide-overlay"></div>
+                  <div class="slide-content">
+                    <span class="slide-meta">Astro · automation · RSS</span>
+                    <h3 class="slide-title">mudo.games</h3>
+                    <p class="slide-desc">Sitio automatizado con integraciones de APIs autogestionadas.</p>
+                    <div class="slide-actions">
+                      <button class="btn-slide-detail">Detalles</button>
+                      <a href="https://mudo.games/" target="_blank" class="btn-slide-link">Visitar ↗</a>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="portfolio-info">
-                <span class="portfolio-meta">Astro · automation · RSS</span>
-                <h3>mudo.games</h3>
-                <p class="portfolio-desc">Sitio automatizado con integraciones de APIs autogestionadas.</p>
-              </div>
-            </article>
 
-            <!-- Project 6: Portal SGC Instituto -->
-            <article class="portfolio-card"
+                <!-- Project 6: Portal SGC Instituto -->
+                <div class="project-slide"
                      data-title="Portal SGC Instituto Irapuato"
                      data-meta="React.js · Firebase · TailwindCSS"
                      data-description="GANADOR AL PREMIO ESTATAL AL MÉRITO LABORAL. Desarrollé un portal web innovador para mejorar la eficiencia y accesibilidad del Sistema de Gestión de Calidad (SGC) del departamento de servicios escolares. Implementé un sistema de login avanzado en React.js, Firebase para datos y autenticación, y Tailwind CSS para un diseño responsivo y modular."
                      data-image="03.png">
-              <div class="portfolio-media">
-                <img src="03.png" loading="lazy" />
-                <div class="fallback-media-art">
-                  <span class="fallback-text">Portal SGC</span>
+                  <div class="slide-bg">
+                    <img src="03.png" loading="lazy" />
+                    <div class="fallback-media-art">
+                      <span class="fallback-text">Portal SGC</span>
+                    </div>
+                  </div>
+                  <div class="slide-overlay"></div>
+                  <div class="slide-content">
+                    <span class="slide-meta">React · Firebase · Premio Estatal</span>
+                    <h3 class="slide-title">Portal SGC</h3>
+                    <p class="slide-desc">Sistema interno premiado para la optimización de procesos de calidad.</p>
+                    <div class="slide-actions">
+                      <button class="btn-slide-detail">Detalles</button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="portfolio-info">
-                <span class="portfolio-meta">React · Firebase · Premio Estatal</span>
-                <h3>Portal SGC</h3>
-                <p class="portfolio-desc">Sistema interno premiado para la optimización de procesos de calidad.</p>
-              </div>
-            </article>
 
-            <!-- Project 7: Inscripción Digital -->
-            <article class="portfolio-card"
+                <!-- Project 7: Inscripción Digital -->
+                <div class="project-slide"
                      data-title="Inscripción Digital - Instituto Irapuato"
                      data-meta="React.js · JavaScript · TailwindCSS"
                      data-description="Sistema automatizado de inscripciones escolares para el Instituto Irapuato, reduciendo errores en la generación y envío de documentos como contratos y solicitudes mediante React.js y scripts estructurados en el cliente. El sistema mejoró la eficiencia de administración en inscripciones."
                      data-image="06.png">
-              <div class="portfolio-media">
-                <img src="06.png" loading="lazy" />
-                <div class="fallback-media-art">
-                  <span class="fallback-text">Inscripción Digital</span>
+                  <div class="slide-bg">
+                    <img src="06.png" loading="lazy" />
+                    <div class="fallback-media-art">
+                      <span class="fallback-text">Inscripción Digital</span>
+                    </div>
+                  </div>
+                  <div class="slide-overlay"></div>
+                  <div class="slide-content">
+                    <span class="slide-meta">React · client-side PDF · automation</span>
+                    <h3 class="slide-title">Inscripción Digital</h3>
+                    <p class="slide-desc">Automatización documental y digitalización del proceso de inscripciones.</p>
+                    <div class="slide-actions">
+                      <button class="btn-slide-detail">Detalles</button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="portfolio-info">
-                <span class="portfolio-meta">React · client-side PDF · automation</span>
-                <h3>Inscripción Digital</h3>
-                <p class="portfolio-desc">Automatización documental y digitalización del proceso de inscripciones.</p>
-              </div>
-            </article>
 
-            <!-- Project 8: Web Instituto Irapuato -->
-            <article class="portfolio-card"
+                <!-- Project 8: Web Instituto Irapuato -->
+                <div class="project-slide"
                      data-title="Web Instituto Irapuato"
                      data-meta="HTML · CSS · Bootstrap · JavaScript"
                      data-description="Desarrollé y optimicé la plataforma web institucional principal del Instituto Irapuato, mejorando la accesibilidad y el diseño para estudiantes, profesores y público en general. Logramos aumentar el tráfico orgánico y la velocidad de carga general."
                      data-image="01.png">
-              <div class="portfolio-media">
-                <img src="01.png" loading="lazy" />
-                <div class="fallback-media-art">
-                  <span class="fallback-text">Web Instituto Irapuato</span>
+                  <div class="slide-bg">
+                    <img src="01.png" loading="lazy" />
+                    <div class="fallback-media-art">
+                      <span class="fallback-text">Web Instituto Irapuato</span>
+                    </div>
+                  </div>
+                  <div class="slide-overlay"></div>
+                  <div class="slide-content">
+                    <span class="slide-meta">HTML · CSS · Bootstrap</span>
+                    <h3 class="slide-title">Web Instituto Irapuato</h3>
+                    <p class="slide-desc">Optimización y rediseño del sitio web oficial de la institución.</p>
+                    <div class="slide-actions">
+                      <button class="btn-slide-detail">Detalles</button>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="portfolio-info">
-                <span class="portfolio-meta">HTML · CSS · Bootstrap</span>
-                <h3>Web Instituto Irapuato</h3>
-                <p class="portfolio-desc">Optimización y rediseño del sitio web oficial de la institución.</p>
-              </div>
-            </article>
 
-            <!-- Project 9: Web CAE León -->
-            <article class="portfolio-card"
+                <!-- Project 9: Web CAE León -->
+                <div class="project-slide"
                      data-title="Web CAE León"
                      data-meta="Astro · TailwindCSS"
                      data-description="Desarrollé la página web para el CAE León, construyendo un sitio de alto rendimiento, optimizado para SEO y con un diseño responsivo y moderno. Astro facilitó una velocidad de carga instantánea."
                      data-image="02.png">
-              <div class="portfolio-media">
-                <img src="02.png" loading="lazy" />
-                <div class="fallback-media-art">
-                  <span class="fallback-text">Web CAE León</span>
+                  <div class="slide-bg">
+                    <img src="02.png" loading="lazy" />
+                    <div class="fallback-media-art">
+                      <span class="fallback-text">Web CAE León</span>
+                    </div>
+                  </div>
+                  <div class="slide-overlay"></div>
+                  <div class="slide-content">
+                    <span class="slide-meta">Astro · TailwindCSS · SEO</span>
+                    <h3 class="slide-title">Web CAE León</h3>
+                    <p class="slide-desc">Sitio estático de alto rendimiento para el centro de atención especial.</p>
+                    <div class="slide-actions">
+                      <button class="btn-slide-detail">Detalles</button>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="portfolio-info">
-                <span class="portfolio-meta">Astro · TailwindCSS · SEO</span>
-                <h3>Web CAE León</h3>
-                <p class="portfolio-desc">Sitio estático de alto rendimiento para el centro de atención especial.</p>
+              
+              <!-- Slider Controls -->
+              <div class="slider-controls">
+                <div class="slider-progress-container">
+                  <div class="slider-progress-bar" id="slider-progress"></div>
+                </div>
+                <div class="slider-navigation">
+                  <button class="slider-arrow prev" id="slider-prev" aria-label="Proyecto anterior">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                  </button>
+                  <button class="slider-arrow next" id="slider-next" aria-label="Proyecto siguiente">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                  </button>
+                </div>
               </div>
-            </article>
-          </div>
-        </section>
+            </div>
+          </section>
+      </div>
 
+      <div class="content-container">
         <!-- SECTION 2: EDUCATION -->
         <section class="portfolio-section" id="sec-education">
           <h2>Educación</h2>

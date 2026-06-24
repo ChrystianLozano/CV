@@ -153,75 +153,170 @@ if (preloader) {
   }
 
   // 6. Project Media Handling (Lazy Loading & Fallback mechanism)
-  const portfolioCards = document.querySelectorAll('.portfolio-card');
-  
-  // Set up an Intersection Observer for lazy loading and auto-play/pause of card videos
-  const videoLazyObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      const video = entry.target;
-      if (entry.isIntersecting) {
-        // Load the src if it hasn't been loaded yet
-        if (!video.src && video.dataset.src) {
-          video.src = video.dataset.src;
-          video.load();
+  const projectSlides = document.querySelectorAll('.project-slide');
+  const slider = document.querySelector('#portfolio-slider');
+  const progressBar = document.querySelector('#slider-progress');
+  const arrowPrev = document.querySelector('#slider-prev');
+  const arrowNext = document.querySelector('#slider-next');
+
+  // Set up an Intersection Observer for active slides (fades and video playing)
+  if (slider) {
+    const slideObserverOptions = {
+      root: slider,
+      threshold: 0.5
+    };
+
+    const slideObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const slide = entry.target;
+        const video = slide.querySelector('video');
+
+        if (entry.isIntersecting) {
+          slide.classList.add('active');
+          
+          // Lazy load and play video on active slide
+          if (video) {
+            if (!video.src && video.dataset.src) {
+              video.src = video.dataset.src;
+              video.load();
+            }
+            video.play().catch(err => {});
+          }
+        } else {
+          slide.classList.remove('active');
+          
+          // Pause video on inactive slide
+          if (video && video.src) {
+            video.pause();
+          }
         }
-        // Play the video
-        video.play().catch(err => {});
-      } else {
-        // Pause the video to save performance when not in viewport
-        if (video.src) {
-          video.pause();
+      });
+    }, slideObserverOptions);
+
+    projectSlides.forEach((slide) => {
+      slideObserver.observe(slide);
+      
+      const video = slide.querySelector('video');
+      const img = slide.querySelector('img');
+      const fallback = slide.querySelector('.fallback-media-art');
+
+      if (fallback) {
+        fallback.style.display = 'none'; // Hidden by default
+      }
+
+      if (video) {
+        if (video.readyState >= 2) {
+          video.classList.add('media-loaded');
+        } else {
+          video.addEventListener('loadeddata', () => {
+            video.classList.add('media-loaded');
+          });
         }
+
+        video.addEventListener('error', () => {
+          video.style.display = 'none';
+          if (fallback) fallback.style.display = 'flex';
+        });
+      }
+
+      if (img) {
+        if (img.complete) {
+          img.classList.add('media-loaded');
+        } else {
+          img.addEventListener('load', () => {
+            img.classList.add('media-loaded');
+          });
+        }
+
+        img.addEventListener('error', () => {
+          img.style.display = 'none';
+          if (fallback) fallback.style.display = 'flex';
+        });
       }
     });
-  }, {
-    root: null, // viewport
-    rootMargin: '100px', // load 100px before entering viewport
-    threshold: 0
-  });
 
-  portfolioCards.forEach((card) => {
-    const video = card.querySelector('video');
-    const img = card.querySelector('img');
-    const fallback = card.querySelector('.fallback-media-art');
-
-    if (fallback) {
-      fallback.style.display = 'none'; // Hidden by default, only shown on failure
-    }
-
-    if (video) {
-      // Observe video for lazy load / play management
-      videoLazyObserver.observe(video);
-
-      if (video.readyState >= 2) {
-        video.classList.add('media-loaded');
-      } else {
-        video.addEventListener('loadeddata', () => {
-          video.classList.add('media-loaded');
-        });
-      }
-
-      video.addEventListener('error', () => {
-        video.style.display = 'none';
-        if (fallback) fallback.style.display = 'flex';
+    // Horizontal Scroll Progress Bar
+    if (progressBar) {
+      slider.addEventListener('scroll', () => {
+        const maxScroll = slider.scrollWidth - slider.clientWidth;
+        const progressPercentage = maxScroll > 0 ? (slider.scrollLeft / maxScroll) * 100 : 0;
+        progressBar.style.width = `${progressPercentage}%`;
       });
     }
 
-    if (img) {
-      if (img.complete) {
-        img.classList.add('media-loaded');
-      } else {
-        img.addEventListener('load', () => {
-          img.classList.add('media-loaded');
-        });
-      }
+    // Desktop Sticky-to-Horizontal Scroll sync
+    const syncStickySlider = () => {
+      if (window.innerWidth < 768) return; // Run on desktop only
 
-      img.addEventListener('error', () => {
-        img.style.display = 'none';
-        if (fallback) fallback.style.display = 'flex';
+      const container = document.getElementById('sec-projects-container');
+      if (container && slider) {
+        const rect = container.getBoundingClientRect();
+        const totalScrollableHeight = rect.height - window.innerHeight;
+        const scrolledDistance = -rect.top;
+
+        if (scrolledDistance >= 0 && scrolledDistance <= totalScrollableHeight) {
+          const progressRatio = scrolledDistance / totalScrollableHeight;
+          const maxHorizontalScroll = slider.scrollWidth - slider.clientWidth;
+          slider.scrollLeft = progressRatio * maxHorizontalScroll;
+        } else if (scrolledDistance < 0) {
+          slider.scrollLeft = 0;
+        } else if (scrolledDistance > totalScrollableHeight) {
+          slider.scrollLeft = slider.scrollWidth - slider.clientWidth;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', syncStickySlider);
+    window.addEventListener('resize', syncStickySlider);
+    // Initial sync
+    syncStickySlider();
+
+    // Navigation Arrows Logic
+    const getScrollOffset = () => {
+      const firstSlide = slider.querySelector('.project-slide');
+      if (firstSlide) {
+        const gap = parseFloat(getComputedStyle(slider).gap) || 0;
+        return firstSlide.clientWidth + gap;
+      }
+      return 300;
+    };
+
+    const scrollToSlide = (index) => {
+      const container = document.getElementById('sec-projects-container');
+      if (container && slider) {
+        const rect = container.getBoundingClientRect();
+        const containerTop = window.scrollY + rect.top;
+        const totalScrollableHeight = rect.height - window.innerHeight;
+        
+        const targetY = containerTop + (index / (projectSlides.length - 1)) * totalScrollableHeight;
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+      }
+    };
+
+    if (arrowPrev && arrowNext) {
+      arrowPrev.addEventListener('click', () => {
+        if (window.innerWidth >= 768) {
+          const activeIndex = Array.from(projectSlides).findIndex(slide => slide.classList.contains('active'));
+          if (activeIndex > 0) {
+            scrollToSlide(activeIndex - 1);
+          }
+        } else {
+          slider.scrollBy({ left: -getScrollOffset(), behavior: 'smooth' });
+        }
+      });
+
+      arrowNext.addEventListener('click', () => {
+        if (window.innerWidth >= 768) {
+          const activeIndex = Array.from(projectSlides).findIndex(slide => slide.classList.contains('active'));
+          if (activeIndex < projectSlides.length - 1 && activeIndex !== -1) {
+            scrollToSlide(activeIndex + 1);
+          }
+        } else {
+          slider.scrollBy({ left: getScrollOffset(), behavior: 'smooth' });
+        }
       });
     }
-  });
+  }
 
   // 7. Project Details Modal Mechanics
   const openModal = (card) => {
@@ -325,8 +420,14 @@ if (preloader) {
   };
 
   // Bind portfolio card click handlers
-  portfolioCards.forEach((card) => {
-    card.addEventListener('click', () => openModal(card));
+  projectSlides.forEach((slide) => {
+    slide.addEventListener('click', (e) => {
+      // Do not open details modal if the user is clicking the "Visitar" external link directly
+      if (e.target.closest('.btn-slide-link')) {
+        return;
+      }
+      openModal(slide);
+    });
   });
 
   // Bind close buttons and backdrop clicks
