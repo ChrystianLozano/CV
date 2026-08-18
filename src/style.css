@@ -249,7 +249,7 @@ p {
 @media (min-width: 768px) {
   .sticky-projects-container {
     position: relative;
-    height: 480vh; /* Scroll height to showcase 9 slides nicely */
+    height: 530vh; /* Scroll height to showcase 10 slides nicely */
     pointer-events: none;
   }
   
