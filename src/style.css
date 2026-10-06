@@ -1200,3 +1200,8 @@ body.no-webgl .main-wrapper {
   }
 }
 
+/* Ocultar sección de Preguntas Frecuentes (solo para bots de IA y motores de búsqueda) */
+#sec-faq {
+  display: none !important;
+}
+
