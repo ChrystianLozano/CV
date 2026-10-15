@@ -15,68 +15,67 @@ export class Cyber3DScene {
     this.targetMouseX = 0;
     this.targetMouseY = 0;
     
-    // Section parameters (Apple/Tesla cinematic layout)
-    // Camera coordinates fly *through* the wave field, and studio colors morph dynamically per section
+    // Section parameters (Editorial Minimalist Architecture in White & Grays)
     this.sectionConfigs = [
-      { // 0. Home: Clean Silver / White (Neutral luxury)
+      { // 0. Home: Deep Titanium & Clean Neutral Platinum
         camPos: new THREE.Vector3(0, 0.4, 5.5),
         lookAt: new THREE.Vector3(0, 0, 0),
-        corePos: new THREE.Vector3(1.4, 0, 0),
+        corePos: new THREE.Vector3(1.5, 0, 0),
         coreScale: 1.0,
-        morphIntensity: 1.0,
-        gyroSpeed: 1.0,
-        particleColor: new THREE.Color(0xffffff),
+        morphIntensity: 0.9,
+        gyroSpeed: 0.9,
+        particleColor: new THREE.Color(0x27272a),
         keyLightColor: new THREE.Color(0xffffff),
-        fillLightColor: new THREE.Color(0x88bbff), // Soft ice blue
-        rimLightColor: new THREE.Color(0xffeedd)   // Soft gold highlight
+        fillLightColor: new THREE.Color(0xd4d4d8),
+        rimLightColor: new THREE.Color(0xf4f4f5)
       },
-      { // 1. Projects: Cold Ice-Cyan & Deep Navy (Technical)
-        camPos: new THREE.Vector3(-2.2, 2.5, 6.2),
+      { // 1. Projects: Technical Graphite & Slate
+        camPos: new THREE.Vector3(-2.2, 2.4, 6.2),
         lookAt: new THREE.Vector3(0.6, -0.4, 0),
         corePos: new THREE.Vector3(2.2, -1.2, -1.0),
         coreScale: 0.75,
-        morphIntensity: 1.8,
-        gyroSpeed: 1.6,
-        particleColor: new THREE.Color(0x3de6ff), // Electric cyan
-        keyLightColor: new THREE.Color(0xd0f6ff),
-        fillLightColor: new THREE.Color(0x0099ff),
-        rimLightColor: new THREE.Color(0x002288)
+        morphIntensity: 1.4,
+        gyroSpeed: 1.3,
+        particleColor: new THREE.Color(0x334155),
+        keyLightColor: new THREE.Color(0xffffff),
+        fillLightColor: new THREE.Color(0xcbd5e1),
+        rimLightColor: new THREE.Color(0x94a3b8)
       },
-      { // 2. Education: Warm Copper / Gold (Humanist/Organic)
+      { // 2. Education: Warm Tungsten & Architecture Stone
         camPos: new THREE.Vector3(1.8, -1.2, 5.8),
         lookAt: new THREE.Vector3(-0.6, 0.2, 0),
         corePos: new THREE.Vector3(-1.8, 0.6, 0),
         coreScale: 0.85,
         morphIntensity: 0.6,
-        gyroSpeed: 0.5,
-        particleColor: new THREE.Color(0xff9f3d), // Warm Amber
-        keyLightColor: new THREE.Color(0xffebd2),
-        fillLightColor: new THREE.Color(0xe67300),
-        rimLightColor: new THREE.Color(0x330066)
+        gyroSpeed: 0.6,
+        particleColor: new THREE.Color(0x44403c),
+        keyLightColor: new THREE.Color(0xffffff),
+        fillLightColor: new THREE.Color(0xd6d3d1),
+        rimLightColor: new THREE.Color(0xa8a29e)
       },
-      { // 3. Specifications (Skills): Deep Cobalt & Neon Purple (Advanced Tech)
-        camPos: new THREE.Vector3(0, -2.6, 4.6),
+      { // 3. Skills: Cold Cobalt Graphite & Deep Steel
+        camPos: new THREE.Vector3(0, -2.5, 4.6),
         lookAt: new THREE.Vector3(0, 0.2, 0),
         corePos: new THREE.Vector3(0, 0.2, -1.0),
-        coreScale: 1.3,
-        morphIntensity: 2.2,
-        gyroSpeed: 1.2,
-        particleColor: new THREE.Color(0xaa55ff), // Deep neon purple
-        keyLightColor: new THREE.Color(0xfad2ff),
-        fillLightColor: new THREE.Color(0x7f00ff),
-        rimLightColor: new THREE.Color(0x0000ff)
+        coreScale: 1.25,
+        morphIntensity: 1.6,
+        gyroSpeed: 1.1,
+        particleColor: new THREE.Color(0x1e293b),
+        keyLightColor: new THREE.Color(0xffffff),
+        fillLightColor: new THREE.Color(0x94a3b8),
+        rimLightColor: new THREE.Color(0x64748b)
       },
-      { // 4. Contact: Emerald Green & Platinum (Sustainable/Future)
-        camPos: new THREE.Vector3(0, 4.2, 8.0),
+      { // 4. Contact: Sage Charcoal & Pale Silver
+        camPos: new THREE.Vector3(0, 4.0, 7.8),
         lookAt: new THREE.Vector3(0, 0.5, 0),
         corePos: new THREE.Vector3(0, 1.4, 0),
         coreScale: 0.55,
-        morphIntensity: 0.4,
-        gyroSpeed: 0.3,
-        particleColor: new THREE.Color(0x3dffaa), // Minty emerald green
-        keyLightColor: new THREE.Color(0xe2ffe2),
-        fillLightColor: new THREE.Color(0x00e676),
-        rimLightColor: new THREE.Color(0x003311)
+        morphIntensity: 0.5,
+        gyroSpeed: 0.4,
+        particleColor: new THREE.Color(0x134e4a),
+        keyLightColor: new THREE.Color(0xffffff),
+        fillLightColor: new THREE.Color(0xccfbf1),
+        rimLightColor: new THREE.Color(0x99f6e4)
       }
     ];
 
@@ -97,31 +96,30 @@ export class Cyber3DScene {
   adjustForDevice() {
     this.isMobile = this.width < 1024;
     
-    // Mobile viewports: center the 3D element to serve as an elegant layout background
     if (this.isMobile) {
       this.sectionConfigs.forEach((config) => {
         config.corePos.set(0, 0.2, -1.8);
         config.coreScale *= 0.65;
-        config.morphIntensity *= 0.7; // Dampen particle waves on mobile
+        config.morphIntensity *= 0.7;
       });
     }
   }
 
-  // Generate glowing dot textures dynamically
+  // Generate crisp dot texture for light theme
   createGlowTexture() {
     const canvas = document.createElement('canvas');
-    canvas.width = 16;
-    canvas.height = 16;
+    canvas.width = 32;
+    canvas.height = 32;
     const ctx = canvas.getContext('2d');
     
-    const gradient = ctx.createRadialGradient(8, 8, 0, 8, 8, 8);
-    gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-    gradient.addColorStop(0.3, 'rgba(245, 245, 247, 0.8)');
-    gradient.addColorStop(0.7, 'rgba(134, 134, 139, 0.2)');
-    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+    gradient.addColorStop(0, 'rgba(24, 24, 27, 0.95)');
+    gradient.addColorStop(0.4, 'rgba(63, 63, 70, 0.6)');
+    gradient.addColorStop(0.8, 'rgba(161, 161, 170, 0.15)');
+    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
     
     ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 16, 16);
+    ctx.fillRect(0, 0, 32, 32);
     
     return new THREE.CanvasTexture(canvas);
   }
@@ -135,46 +133,43 @@ export class Cyber3DScene {
     this.camera.position.copy(this.currentCamPos);
     this.camera.lookAt(this.currentLookAt);
     
-    // 3. WebGL Renderer with Tone Mapping (crucial for physical materials)
+    // 3. WebGL Renderer with Alpha transparency for white & gray canvas
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
       antialias: true,
-      alpha: true, // Seamless overlay with CSS background
+      alpha: true,
       powerPreference: "high-performance"
     });
     this.renderer.setSize(this.width, this.height);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.2;
+    this.renderer.toneMappingExposure = 1.1;
     
-    // 4. Studio Lighting Rig (Dynamic color targets mapped to scroll)
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+    // 4. Studio Lighting Rig
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
     this.scene.add(ambientLight);
     
-    // Main Studio Key-Light
-    this.keyLight = new THREE.DirectionalLight(0xffffff, 2.5);
+    this.keyLight = new THREE.DirectionalLight(0xffffff, 2.0);
     this.keyLight.position.set(5, 5, 4);
     this.scene.add(this.keyLight);
     
-    // Soft detuned fill light
-    this.fillLight = new THREE.DirectionalLight(0x88bbff, 1.8);
+    this.fillLight = new THREE.DirectionalLight(0xd4d4d8, 1.4);
     this.fillLight.position.set(-5, 3, 2);
     this.scene.add(this.fillLight);
 
-    // Warm back rim light
-    this.rimLight = new THREE.DirectionalLight(0xffeedd, 2.0);
+    this.rimLight = new THREE.DirectionalLight(0xf4f4f5, 1.6);
     this.rimLight.position.set(0, -3, -5);
     this.scene.add(this.rimLight);
 
-    // 5. Interactive Mouse PointLight (Casts shiny specularity on cursor move)
-    this.mouseLight = new THREE.PointLight(0xffffff, 8.0, 15);
+    // Interactive Mouse PointLight
+    this.mouseLight = new THREE.PointLight(0xffffff, 5.0, 15);
     this.mouseLight.position.set(0, 0, 2);
     this.scene.add(this.mouseLight);
 
-    // 6. Build Concentric Gyroscope Core
+    // 5. Build Concentric Gyroscope Core
     this.createGyroscope();
 
-    // 7. Build 3D Particle Wave Field
+    // 6. Build 3D Particle Wave Grid (Architectural Dot Matrix)
     this.createParticleWaveGrid();
     
     // Listeners
@@ -190,27 +185,26 @@ export class Cyber3DScene {
     this.gyroGroup.position.copy(this.currentCorePos);
     this.scene.add(this.gyroGroup);
 
-    // Material: Highly polished titanium chrome (Apple M-series / Tesla hardware aesthetic)
+    // Material: Brushed Dark Titanium / Obsidian Steel
     const metalMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0x1d1d1f, // Space Gray
-      metalness: 0.98,
-      roughness: 0.12,
-      clearcoat: 1.0,
-      clearcoatRoughness: 0.02,
-      reflectivity: 1.0
+      color: 0x18181b,
+      metalness: 0.92,
+      roughness: 0.18,
+      clearcoat: 0.9,
+      clearcoatRoughness: 0.05,
+      reflectivity: 0.95
     });
 
-    // Create 3 Concentric Rings
-    const outerGeo = new THREE.TorusGeometry(1.8, 0.045, 16, this.isMobile ? 50 : 80);
+    const segments = this.isMobile ? 50 : 80;
+    const outerGeo = new THREE.TorusGeometry(1.8, 0.045, 16, segments);
     this.outerRing = new THREE.Mesh(outerGeo, metalMaterial);
     
-    const middleGeo = new THREE.TorusGeometry(1.4, 0.038, 16, this.isMobile ? 50 : 80);
+    const middleGeo = new THREE.TorusGeometry(1.4, 0.038, 16, segments);
     this.middleRing = new THREE.Mesh(middleGeo, metalMaterial);
 
-    const innerGeo = new THREE.TorusGeometry(1.0, 0.03, 16, this.isMobile ? 50 : 80);
+    const innerGeo = new THREE.TorusGeometry(1.0, 0.03, 16, segments);
     this.innerRing = new THREE.Mesh(innerGeo, metalMaterial);
 
-    // Add rings to detuned axes group
     this.outerGroup = new THREE.Group();
     this.middleGroup = new THREE.Group();
     this.innerGroup = new THREE.Group();
@@ -223,7 +217,6 @@ export class Cyber3DScene {
     this.gyroGroup.add(this.middleGroup);
     this.gyroGroup.add(this.innerGroup);
 
-    // Center precision titanium bead (diameter 0.16 units)
     const coreGeo = new THREE.SphereGeometry(0.08, 16, 16);
     this.coreMesh = new THREE.Mesh(coreGeo, metalMaterial);
     this.gyroGroup.add(this.coreMesh);
@@ -240,8 +233,8 @@ export class Cyber3DScene {
     const positions = new Float32Array(this.particleCount * 3);
     const colors = new Float32Array(this.particleCount * 3);
     
-    const baseWhite = new THREE.Color(0xffffff);
-    const fadeSlate = new THREE.Color(0x32353e);
+    const baseCharcoal = new THREE.Color(0x18181b);
+    const fadeSlate = new THREE.Color(0xa1a1aa);
     
     let index = 0;
     const halfWidth = (sizeX * spacing) / 2;
@@ -258,9 +251,8 @@ export class Cyber3DScene {
         positions[i3 + 1] = py;
         positions[i3 + 2] = pz;
         
-        // Base coloring decaying to edges
         const dist = Math.sqrt(px * px + pz * pz) / halfWidth;
-        const lerpedColor = baseWhite.clone().lerp(fadeSlate, Math.min(dist, 1.0));
+        const lerpedColor = baseCharcoal.clone().lerp(fadeSlate, Math.min(dist, 1.0));
         
         colors[i3] = lerpedColor.r;
         colors[i3 + 1] = lerpedColor.g;
@@ -273,14 +265,14 @@ export class Cyber3DScene {
     this.particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     this.particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     
-    // We use points material, whose color property acts as a multiplier tint
     this.particleMaterial = new THREE.PointsMaterial({
-      color: 0xffffff,
-      size: this.isMobile ? 0.075 : 0.065,
+      color: 0x27272a,
+      size: this.isMobile ? 0.065 : 0.055,
       sizeAttenuation: true,
       depthWrite: false,
       transparent: true,
-      blending: THREE.AdditiveBlending,
+      opacity: 0.38,
+      blending: THREE.NormalBlending,
       vertexColors: true,
       map: this.createGlowTexture()
     });
@@ -320,13 +312,11 @@ export class Cyber3DScene {
     const elapsedTime = this.clock.getElapsedTime();
     const config = this.sectionConfigs[this.activeSection];
     
-    // 1. Smoothly fly camera to section target coordinates
     const lerpSpeed = 0.035;
     this.currentCamPos.lerp(config.camPos, lerpSpeed);
     this.currentLookAt.lerp(config.lookAt, lerpSpeed);
     this.camera.position.copy(this.currentCamPos);
     
-    // 2. Cursor Parallax
     this.mouseX += (this.targetMouseX - this.mouseX) * 0.05;
     this.mouseY += (this.targetMouseY - this.mouseY) * 0.05;
     
@@ -335,12 +325,10 @@ export class Cyber3DScene {
     
     this.camera.lookAt(this.currentLookAt);
     
-    // 3. Move the spotlight with the cursor
     this.mouseLight.position.x = this.mouseX * 6.5;
     this.mouseLight.position.y = -this.mouseY * 4.5 + 0.5;
     this.mouseLight.position.z = 2.2;
     
-    // 4. Lerp Core positioning and scaling
     this.currentCorePos.lerp(config.corePos, lerpSpeed);
     this.currentCoreScale += (config.coreScale - this.currentCoreScale) * lerpSpeed;
     this.currentMorphIntensity += (config.morphIntensity - this.currentMorphIntensity) * lerpSpeed;
@@ -349,25 +337,21 @@ export class Cyber3DScene {
     this.gyroGroup.position.copy(this.currentCorePos);
     this.gyroGroup.scale.setScalar(this.currentCoreScale);
     
-    // 5. Smooth Color Lerp (Studio lights & Core energy nodes & Particle grids)
-    const colorLerpSpeed = 0.025; // Smooth color crossfades
-    
+    const colorLerpSpeed = 0.025;
     this.keyLight.color.lerp(config.keyLightColor, colorLerpSpeed);
     this.fillLight.color.lerp(config.fillLightColor, colorLerpSpeed);
     this.rimLight.color.lerp(config.rimLightColor, colorLerpSpeed);
     
     this.particleMaterial.color.lerp(config.particleColor, colorLerpSpeed);
     
-    // 6. Spin Concentric Gyroscope Rings
     const gSpeed = this.currentGyroSpeed;
-    this.outerGroup.rotation.x = elapsedTime * 0.18 * gSpeed;
-    this.middleGroup.rotation.y = elapsedTime * 0.25 * gSpeed;
-    this.innerGroup.rotation.z = elapsedTime * 0.32 * gSpeed;
+    this.outerGroup.rotation.x = elapsedTime * 0.16 * gSpeed;
+    this.middleGroup.rotation.y = elapsedTime * 0.22 * gSpeed;
+    this.innerGroup.rotation.z = elapsedTime * 0.28 * gSpeed;
     
     this.coreMesh.scale.setScalar(1.0);
     
-    // 7. Animate 3D Particle Wave Field
-    const time = elapsedTime * 0.9;
+    const time = elapsedTime * 0.85;
     const positions = this.particleGeometry.attributes.position.array;
     
     for (let i = 0; i < this.particleCount; i++) {
@@ -384,7 +368,6 @@ export class Cyber3DScene {
     
     this.particleGeometry.attributes.position.needsUpdate = true;
     
-    // Render
     this.renderer.render(this.scene, this.camera);
   }
 

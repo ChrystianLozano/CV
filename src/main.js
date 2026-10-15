@@ -1,7 +1,9 @@
 import './style.css';
 import { Cyber3DScene } from './three-scene.js';
 
-// 0. Preloader Logic
+// ==========================================================================
+// 1. Sleek Preloader Logic
+// ==========================================================================
 const preloader = document.getElementById('preloader');
 const preloaderBar = document.getElementById('preloader-bar');
 const preloaderStatus = document.getElementById('preloader-status');
@@ -9,443 +11,331 @@ const preloaderStatus = document.getElementById('preloader-status');
 if (preloader) {
   let progress = 0;
   const interval = setInterval(() => {
-    progress += Math.floor(Math.random() * 15) + 5;
+    progress += Math.floor(Math.random() * 20) + 10;
     if (progress >= 100) {
       progress = 100;
       clearInterval(interval);
       setTimeout(() => {
         preloader.classList.add('loaded');
-      }, 200);
+      }, 150);
     }
     if (preloaderBar) preloaderBar.style.width = `${progress}%`;
     if (preloaderStatus) preloaderStatus.textContent = `${progress}%`;
-  }, 40);
+  }, 25);
 }
 
-// Initialize UI and WebGL components immediately as the module executes
-  // 1. Initialize Three.js 3D Scene with WebGL context check
-  const canvas = document.querySelector('#webgl');
-  let scene3D = null;
-  
-  try {
-    if (canvas) {
-      // Check for WebGL context availability explicitly first to avoid unhandled WebGLRenderer crashes
-      const canvasTest = document.createElement('canvas');
-      const gl = canvasTest.getContext('webgl') || canvasTest.getContext('experimental-webgl');
-      if (!gl) {
-        throw new Error('WebGL context not supported by browser/GPU.');
-      }
-      scene3D = new Cyber3DScene(canvas);
+// ==========================================================================
+// 2. WebGL 3D Scene Initialization
+// ==========================================================================
+const canvas = document.querySelector('#webgl');
+let scene3D = null;
+
+try {
+  if (canvas) {
+    const canvasTest = document.createElement('canvas');
+    const gl = canvasTest.getContext('webgl') || canvasTest.getContext('experimental-webgl');
+    if (!gl) {
+      throw new Error('WebGL context not supported.');
     }
-  } catch (error) {
-    console.error("WebGL failed to initialize:", error);
-    
-    // Show compatibility warning banner
-    const warningBanner = document.getElementById('webgl-warning');
-    if (warningBanner) {
-      warningBanner.style.display = 'block';
-    }
-    document.body.classList.add('no-webgl');
-    
-    // Handle closing the warning banner
-    const closeWarningBtn = document.getElementById('close-warning-btn');
-    if (closeWarningBtn && warningBanner) {
-      closeWarningBtn.addEventListener('click', () => {
-        warningBanner.style.display = 'none';
-        document.body.classList.remove('no-webgl');
-      });
-    }
+    scene3D = new Cyber3DScene(canvas);
   }
+} catch (error) {
+  console.warn("WebGL initialization note:", error);
+  const warningBanner = document.getElementById('webgl-warning');
+  if (warningBanner) {
+    warningBanner.style.display = 'block';
+  }
+  document.body.classList.add('no-webgl');
 
-  // 2. Select DOM Elements
-  const sections = document.querySelectorAll('.portfolio-section');
-  const navLinks = document.querySelectorAll('.nav-link');
-  const menuToggleBtn = document.querySelector('#mobile-toggle');
-  const navMenu = document.querySelector('#nav-menu');
-  
-  // Project Modal Elements
-  const modal = document.querySelector('#project-modal');
-  const modalCloseBtn = document.querySelector('#modal-close-btn');
-  const modalMedia = document.querySelector('#modal-media');
-  const modalTitle = document.querySelector('#modal-title');
-  const modalMetaTag = document.querySelector('#modal-meta-tag');
-  const modalDesc = document.querySelector('#modal-description');
-  const modalLinkBtn = document.querySelector('#modal-link-btn');
+  const closeWarningBtn = document.getElementById('close-warning-btn');
+  if (closeWarningBtn && warningBanner) {
+    closeWarningBtn.addEventListener('click', () => {
+      warningBanner.style.display = 'none';
+      document.body.classList.remove('no-webgl');
+    });
+  }
+}
 
-  let activeSectionIndex = 0;
+// ==========================================================================
+// 3. Navigation & Scroll Spying
+// ==========================================================================
+const sections = document.querySelectorAll('.portfolio-section');
+const navLinks = document.querySelectorAll('.nav-link');
+const menuToggleBtn = document.querySelector('#mobile-toggle');
+let activeSectionIndex = 0;
 
-  // 3. Section Navigation & Smooth Scroll
-  navLinks.forEach((link) => {
-    link.addEventListener('click', (e) => {
+// Smooth Section Navigation
+navLinks.forEach((link) => {
+  link.addEventListener('click', (e) => {
+    const targetId = link.getAttribute('href');
+    if (targetId && targetId.startsWith('#')) {
       e.preventDefault();
-      
-      const targetIndex = parseInt(link.getAttribute('data-section'), 10);
-      const targetSection = sections[targetIndex];
-      
+      const targetSection = document.querySelector(targetId);
       if (targetSection) {
-        // Scroll target section into view
         targetSection.scrollIntoView({ behavior: 'smooth' });
-        
-        // If mobile nav active, collapse it
         document.body.classList.remove('mobile-nav-active');
       }
-    });
+    }
   });
+});
 
-  // 4. Mobile Menu Toggle
-  if (menuToggleBtn) {
-    menuToggleBtn.addEventListener('click', () => {
-      document.body.classList.toggle('mobile-nav-active');
-    });
+// Mobile Menu Toggle
+if (menuToggleBtn) {
+  menuToggleBtn.addEventListener('click', () => {
+    const isExpanded = document.body.classList.toggle('mobile-nav-active');
+    menuToggleBtn.setAttribute('aria-expanded', isExpanded.toString());
+  });
+}
+
+// Close mobile menu on click outside
+document.addEventListener('click', (e) => {
+  if (document.body.classList.contains('mobile-nav-active')) {
+    if (!e.target.closest('#nav-menu') && !e.target.closest('#mobile-toggle')) {
+      document.body.classList.remove('mobile-nav-active');
+    }
   }
+});
 
-  // 5. Scroll Spying (Intersection Observer)
-  // Calibrated for a top-down scroll site: triggers when a section passes through the center band of the screen
-  const observerOptions = {
-    root: null, // use viewport
-    rootMargin: '-25% 0px -55% 0px',
-    threshold: 0
-  };
+// Scroll Spying (Section Reveal & 3D Scene Morph Synchronization)
+const sectionObserverOptions = {
+  root: null,
+  rootMargin: '-20% 0px -40% 0px',
+  threshold: 0
+};
 
-  const observerCallback = (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id;
-        let index = 0;
-        
-        // Map section ID to index
-        if (id === 'sec-home') index = 0;
-        else if (id === 'sec-projects') index = 1;
-        else if (id === 'sec-education') index = 2;
-        else if (id === 'sec-skills') index = 3;
-        else if (id === 'sec-contact' || id === 'sec-faq') index = 4;
-        
-        // Add reveal-visible class to animate sections entering the screen
-        entry.target.classList.add('reveal-visible');
-
-        if (activeSectionIndex !== index) {
-          activeSectionIndex = index;
-
-          // Sync top navbar active state
-          navLinks.forEach((link) => {
-            if (parseInt(link.getAttribute('data-section'), 10) === index) {
-              link.classList.add('active');
-            } else {
-              link.classList.remove('active');
-            }
-          });
-
-          // Transition Three.js camera/sculpture parameters
-          if (scene3D) {
-            scene3D.setSection(index);
-          }
-        }
-      }
-    });
-  };
-
-  const observer = new IntersectionObserver(observerCallback, observerOptions);
-  sections.forEach((section) => observer.observe(section));
-
-  // Trigger reveal for first section immediately in case it doesn't fire observer on load
-  if (sections[0]) {
-    sections[0].classList.add('reveal-visible');
-  }
-
-  // 6. Project Media Handling (Lazy Loading & Fallback mechanism)
-  const projectSlides = document.querySelectorAll('.project-slide');
-  const slider = document.querySelector('#portfolio-slider');
-  const progressBar = document.querySelector('#slider-progress');
-  const arrowPrev = document.querySelector('#slider-prev');
-  const arrowNext = document.querySelector('#slider-next');
-
-  // Set up an Intersection Observer for active slides (fades and video playing)
-  if (slider) {
-    const slideObserverOptions = {
-      root: slider,
-      threshold: 0.5
-    };
-
-    const slideObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        const slide = entry.target;
-        const video = slide.querySelector('video');
-
-        if (entry.isIntersecting) {
-          slide.classList.add('active');
-          
-          // Lazy load and play video on active slide
-          if (video) {
-            if (!video.src && video.dataset.src) {
-              video.src = video.dataset.src;
-              video.load();
-            }
-            video.play().catch(err => {});
-          }
-        } else {
-          slide.classList.remove('active');
-          
-          // Pause video on inactive slide
-          if (video && video.src) {
-            video.pause();
-          }
-        }
-      });
-    }, slideObserverOptions);
-
-    projectSlides.forEach((slide) => {
-      slideObserver.observe(slide);
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('reveal-visible');
       
-      const video = slide.querySelector('video');
-      const img = slide.querySelector('img');
-      const fallback = slide.querySelector('.fallback-media-art');
+      const id = entry.target.id;
+      let index = 0;
+      if (id === 'sec-home') index = 0;
+      else if (id === 'sec-projects') index = 1;
+      else if (id === 'sec-education') index = 2;
+      else if (id === 'sec-skills') index = 3;
+      else if (id === 'sec-contact' || id === 'sec-faq') index = 4;
 
-      if (fallback) {
-        fallback.style.display = 'none'; // Hidden by default
-      }
+      if (activeSectionIndex !== index) {
+        activeSectionIndex = index;
 
-      if (video) {
-        if (video.readyState >= 2) {
-          video.classList.add('media-loaded');
-        } else {
-          video.addEventListener('loadeddata', () => {
-            video.classList.add('media-loaded');
-          });
-        }
-
-        video.addEventListener('error', () => {
-          video.style.display = 'none';
-          if (fallback) fallback.style.display = 'flex';
+        // Sync header nav active link
+        navLinks.forEach((link) => {
+          if (parseInt(link.getAttribute('data-section'), 10) === index) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
         });
-      }
 
-      if (img) {
-        if (img.complete) {
-          img.classList.add('media-loaded');
-        } else {
-          img.addEventListener('load', () => {
-            img.classList.add('media-loaded');
-          });
+        // Trigger 3D scene camera and color transitions
+        if (scene3D) {
+          scene3D.setSection(index);
         }
+      }
+    }
+  });
+}, sectionObserverOptions);
 
-        img.addEventListener('error', () => {
-          img.style.display = 'none';
-          if (fallback) fallback.style.display = 'flex';
-        });
+sections.forEach((sec) => sectionObserver.observe(sec));
+
+// Reveal hero immediately if in view
+if (sections[0]) {
+  sections[0].classList.add('reveal-visible');
+}
+
+// ==========================================================================
+// 4. Project Category Filtering & Media Handling
+// ==========================================================================
+const filterChips = document.querySelectorAll('.filter-chip');
+const projectCards = document.querySelectorAll('.project-card');
+
+filterChips.forEach((chip) => {
+  chip.addEventListener('click', () => {
+    const filter = chip.getAttribute('data-filter');
+
+    // Update active chip UI
+    filterChips.forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+
+    // Filter project cards
+    projectCards.forEach((card) => {
+      const category = card.getAttribute('data-category');
+      if (filter === 'all' || category === filter) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
       }
     });
+  });
+});
 
-    // Horizontal Scroll Progress Bar
-    if (progressBar) {
-      slider.addEventListener('scroll', () => {
-        const maxScroll = slider.scrollWidth - slider.clientWidth;
-        const progressPercentage = maxScroll > 0 ? (slider.scrollLeft / maxScroll) * 100 : 0;
-        progressBar.style.width = `${progressPercentage}%`;
-      });
+// Project Videos Lazy Loading & Play-on-view / Play-on-hover
+const videoObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    const video = entry.target;
+    if (entry.isIntersecting) {
+      if (!video.src && video.dataset.src) {
+        video.src = video.dataset.src;
+        video.load();
+      }
+      video.play().catch(() => {});
+    } else {
+      if (video.src) {
+        video.pause();
+      }
     }
+  });
+}, { threshold: 0.25 });
 
-    // Desktop Sticky-to-Horizontal Scroll sync
-    const syncStickySlider = () => {
-      if (window.innerWidth < 768) return; // Run on desktop only
+projectCards.forEach((card) => {
+  const video = card.querySelector('video');
+  if (video) {
+    videoObserver.observe(video);
 
-      const container = document.getElementById('sec-projects-container');
-      if (container && slider) {
-        const rect = container.getBoundingClientRect();
-        const totalScrollableHeight = rect.height - window.innerHeight;
-        const scrolledDistance = -rect.top;
-
-        if (scrolledDistance >= 0 && scrolledDistance <= totalScrollableHeight) {
-          const progressRatio = scrolledDistance / totalScrollableHeight;
-          const maxHorizontalScroll = slider.scrollWidth - slider.clientWidth;
-          slider.scrollLeft = progressRatio * maxHorizontalScroll;
-        } else if (scrolledDistance < 0) {
-          slider.scrollLeft = 0;
-        } else if (scrolledDistance > totalScrollableHeight) {
-          slider.scrollLeft = slider.scrollWidth - slider.clientWidth;
-        }
+    // Hover acceleration
+    card.addEventListener('mouseenter', () => {
+      if (!video.src && video.dataset.src) {
+        video.src = video.dataset.src;
+        video.load();
       }
-    };
+      video.play().catch(() => {});
+    });
+  }
+});
 
-    window.addEventListener('scroll', syncStickySlider);
-    window.addEventListener('resize', syncStickySlider);
-    // Initial sync
-    syncStickySlider();
+// ==========================================================================
+// 5. Project Details Modal Mechanics (Emil Kowalski Modal Architecture)
+// ==========================================================================
+const modal = document.querySelector('#project-modal');
+const modalCloseBtn = document.querySelector('#modal-close-btn');
+const modalDismissBtn = document.querySelector('#modal-dismiss-btn');
+const modalBackdrop = document.querySelector('#modal-backdrop');
+const modalMedia = document.querySelector('#modal-media');
+const modalTitle = document.querySelector('#modal-title');
+const modalMetaTag = document.querySelector('#modal-meta-tag');
+const modalDesc = document.querySelector('#modal-description');
+const modalLinkBtn = document.querySelector('#modal-link-btn');
 
-    // Navigation Arrows Logic
-    const getScrollOffset = () => {
-      const firstSlide = slider.querySelector('.project-slide');
-      if (firstSlide) {
-        const gap = parseFloat(getComputedStyle(slider).gap) || 0;
-        return firstSlide.clientWidth + gap;
-      }
-      return 300;
-    };
+const openModal = (card) => {
+  if (!modal) return;
 
-    const scrollToSlide = (index) => {
-      const container = document.getElementById('sec-projects-container');
-      if (container && slider) {
-        const rect = container.getBoundingClientRect();
-        const containerTop = window.scrollY + rect.top;
-        const totalScrollableHeight = rect.height - window.innerHeight;
-        
-        const targetY = containerTop + (index / (projectSlides.length - 1)) * totalScrollableHeight;
-        window.scrollTo({ top: targetY, behavior: 'smooth' });
-      }
-    };
+  const title = card.getAttribute('data-title') || '';
+  const meta = card.getAttribute('data-meta') || '';
+  const desc = card.getAttribute('data-description') || '';
+  const mediaPath = card.getAttribute('data-image') || '';
+  const linkUrl = card.getAttribute('data-link') || '';
 
-    if (arrowPrev && arrowNext) {
-      arrowPrev.addEventListener('click', () => {
-        if (window.innerWidth >= 768) {
-          const activeIndex = Array.from(projectSlides).findIndex(slide => slide.classList.contains('active'));
-          if (activeIndex > 0) {
-            scrollToSlide(activeIndex - 1);
-          }
-        } else {
-          slider.scrollBy({ left: -getScrollOffset(), behavior: 'smooth' });
-        }
-      });
+  if (modalTitle) modalTitle.textContent = title;
+  if (modalMetaTag) modalMetaTag.textContent = meta;
+  if (modalDesc) modalDesc.textContent = desc;
 
-      arrowNext.addEventListener('click', () => {
-        if (window.innerWidth >= 768) {
-          const activeIndex = Array.from(projectSlides).findIndex(slide => slide.classList.contains('active'));
-          if (activeIndex < projectSlides.length - 1 && activeIndex !== -1) {
-            scrollToSlide(activeIndex + 1);
-          }
-        } else {
-          slider.scrollBy({ left: getScrollOffset(), behavior: 'smooth' });
-        }
-      });
+  // External visit button
+  if (modalLinkBtn) {
+    if (linkUrl) {
+      modalLinkBtn.href = linkUrl;
+      modalLinkBtn.style.display = 'inline-flex';
+    } else {
+      modalLinkBtn.style.display = 'none';
+      modalLinkBtn.href = '#';
     }
   }
 
-  // 7. Project Details Modal Mechanics
-  const openModal = (card) => {
-    if (!modal) return;
-    
-    // Extract metadata
-    const title = card.getAttribute('data-title') || '';
-    const meta = card.getAttribute('data-meta') || '';
-    const desc = card.getAttribute('data-description') || '';
-    const mediaPath = card.getAttribute('data-image') || '';
-    const linkUrl = card.getAttribute('data-link') || '';
-
-    // Populate copy
-    if (modalTitle) modalTitle.textContent = title;
-    if (modalMetaTag) modalMetaTag.textContent = meta;
-    if (modalDesc) modalDesc.textContent = desc;
-
-    // Populate Visit Link Button
-    if (modalLinkBtn) {
-      if (linkUrl) {
-        modalLinkBtn.href = linkUrl;
-        modalLinkBtn.style.display = 'inline-flex';
-      } else {
-        modalLinkBtn.style.display = 'none';
-        modalLinkBtn.href = '#';
+  // Populate media inside modal
+  if (modalMedia) {
+    modalMedia.innerHTML = '';
+    if (mediaPath.endsWith('.mp4') || mediaPath.endsWith('.webm')) {
+      const vid = document.createElement('video');
+      vid.src = mediaPath;
+      vid.autoplay = true;
+      vid.controls = true;
+      vid.loop = true;
+      vid.playsInline = true;
+      modalMedia.appendChild(vid);
+    } else if (mediaPath) {
+      const img = document.createElement('img');
+      img.src = mediaPath;
+      img.alt = title;
+      if (card.getAttribute('data-tone') === 'grayscale') {
+        img.classList.add('tone-grayscale');
       }
+      modalMedia.appendChild(img);
     }
+  }
 
-    // Populate media node
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+};
+
+const closeModal = () => {
+  if (!modal) return;
+
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+
+  setTimeout(() => {
     if (modalMedia) {
-      modalMedia.innerHTML = ''; // Clear previous media
+      const vid = modalMedia.querySelector('video');
+      if (vid) vid.pause();
+      modalMedia.innerHTML = '';
+    }
+  }, 250);
+};
 
-      if (mediaPath.endsWith('.mp4') || mediaPath.endsWith('.webm')) {
-        const videoElement = document.createElement('video');
-        videoElement.src = mediaPath;
-        videoElement.autoplay = true;
-        videoElement.controls = true;
-        videoElement.loop = true;
-        videoElement.playsInline = true;
-        
-        videoElement.addEventListener('loadeddata', () => {
-          videoElement.classList.add('media-loaded');
-        });
+// Bind card click triggers
+projectCards.forEach((card) => {
+  card.addEventListener('click', (e) => {
+    // Avoid opening modal if clicking direct external visit link
+    if (e.target.closest('.btn-card-visit')) return;
+    openModal(card);
+  });
+});
 
-        videoElement.addEventListener('error', () => {
-          videoElement.style.display = 'none';
-          const errorPlaceholder = document.createElement('div');
-          errorPlaceholder.className = 'fallback-media-art';
-          errorPlaceholder.innerHTML = `<span class="fallback-text">${title}</span>`;
-          modalMedia.appendChild(errorPlaceholder);
-        });
+if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+if (modalDismissBtn) modalDismissBtn.addEventListener('click', closeModal);
+if (modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
 
-        modalMedia.appendChild(videoElement);
-      } else if (mediaPath) {
-        const imgElement = document.createElement('img');
-        imgElement.src = mediaPath;
-        imgElement.alt = title;
-        
-        imgElement.addEventListener('load', () => {
-          imgElement.classList.add('media-loaded');
-        });
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
+    closeModal();
+  }
+});
 
-        imgElement.addEventListener('error', () => {
-          imgElement.style.display = 'none';
-          const errorPlaceholder = document.createElement('div');
-          errorPlaceholder.className = 'fallback-media-art';
-          errorPlaceholder.innerHTML = `<span class="fallback-text">${title}</span>`;
-          modalMedia.appendChild(errorPlaceholder);
-        });
+// ==========================================================================
+// 6. Direct Email Copy Feedback (Micro-interaction)
+// ==========================================================================
+const copyEmailBtn = document.getElementById('btn-copy-email');
 
-        modalMedia.appendChild(imgElement);
+if (copyEmailBtn) {
+  copyEmailBtn.addEventListener('click', async () => {
+    const email = 'hola@chrystian.dev';
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(email);
       } else {
-        const errorPlaceholder = document.createElement('div');
-        errorPlaceholder.className = 'fallback-media-art';
-        errorPlaceholder.innerHTML = `<span class="fallback-text">${title}</span>`;
-        modalMedia.appendChild(errorPlaceholder);
+        const temp = document.createElement('textarea');
+        temp.value = email;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
       }
-    }
 
-    // Display modal
-    modal.classList.add('active');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden'; // Lock main scroll
-  };
+      const copyText = copyEmailBtn.querySelector('.copy-text');
+      if (copyText) {
+        const originalText = copyText.textContent;
+        copyText.textContent = '¡Copiado!';
+        copyEmailBtn.classList.add('copied');
 
-  const closeModal = () => {
-    if (!modal) return;
-    
-    modal.classList.remove('active');
-    modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = ''; // Unlock main scroll
-
-    // Pause and clean media inside to save memory
-    setTimeout(() => {
-      if (modalMedia) {
-        const video = modalMedia.querySelector('video');
-        if (video) video.pause();
-        modalMedia.innerHTML = '';
+        setTimeout(() => {
+          copyText.textContent = originalText;
+          copyEmailBtn.classList.remove('copied');
+        }, 2000);
       }
-    }, 500);
-  };
-
-  // Bind portfolio card click handlers
-  projectSlides.forEach((slide) => {
-    slide.addEventListener('click', (e) => {
-      // Do not open details modal if the user is clicking the "Visitar" external link directly
-      if (e.target.closest('.btn-slide-link')) {
-        return;
-      }
-      openModal(slide);
-    });
-  });
-
-  // Bind close buttons and backdrop clicks
-  if (modalCloseBtn) {
-    modalCloseBtn.addEventListener('click', closeModal);
-  }
-
-  if (modal) {
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        closeModal();
-      }
-    });
-  }
-
-  // Escape key closes modal
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
-      closeModal();
+    } catch (err) {
+      console.error('No se pudo copiar el correo:', err);
     }
   });
+}
