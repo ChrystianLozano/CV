@@ -669,19 +669,51 @@ section.portfolio-section.reveal-visible {
 
 .window-controls {
   display: flex;
-  gap: 6px;
+  gap: 7px;
+  align-items: center;
 }
 
 .control-dot {
-  width: 9px;
-  height: 9px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background-color: #d4d4d8;
+  display: inline-block;
+  transition: opacity var(--dur-fast) ease, transform var(--dur-fast) var(--ease-out-snappy);
 }
 
-.bento-card:hover .control-dot:nth-child(1) { background-color: #fca5a5; }
-.bento-card:hover .control-dot:nth-child(2) { background-color: #fde047; }
-.bento-card:hover .control-dot:nth-child(3) { background-color: #86efac; }
+/* Safari Native Traffic Light Colors */
+.project-card .control-dot:nth-child(1) {
+  background-color: #ff5f56;
+  border: 1px solid rgba(224, 68, 62, 0.45);
+}
+
+.project-card .control-dot:nth-child(2) {
+  background-color: #ffbd2e;
+  border: 1px solid rgba(222, 161, 35, 0.45);
+}
+
+.project-card .control-dot:nth-child(3) {
+  background-color: #27c93f;
+  border: 1px solid rgba(26, 171, 41, 0.45);
+}
+
+.project-card:hover .control-dot {
+  opacity: 0.95;
+  transform: scale(1.05);
+}
+
+/* Grayscale Monochromatic Window Controls for Institutional Projects */
+.project-card[data-tone="grayscale"] .control-dot:nth-child(1),
+.project-card[data-tone="grayscale"] .control-dot:nth-child(2),
+.project-card[data-tone="grayscale"] .control-dot:nth-child(3),
+.project-card[data-tone="grayscale"]:hover .control-dot:nth-child(1),
+.project-card[data-tone="grayscale"]:hover .control-dot:nth-child(2),
+.project-card[data-tone="grayscale"]:hover .control-dot:nth-child(3) {
+  background-color: #d4d4d8 !important;
+  border: 1px solid #a1a1aa !important;
+  opacity: 0.85 !important;
+  transform: none !important;
+}
 
 .window-url {
   font-family: var(--font-mono);
