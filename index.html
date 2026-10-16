@@ -175,6 +175,9 @@
     </div>
   </div>
 
+  <!-- Subtle Architectural Film Grain Overlay -->
+  <div class="ambient-grain" aria-hidden="true"></div>
+
   <!-- WebGL Canvas Background -->
   <canvas id="webgl"></canvas>
 
@@ -228,40 +231,41 @@
             <span class="status-pulse-dot"></span>
             INGENIERÍA EN SISTEMAS COMPUTACIONALES · BIG DATA
           </span>
-          <span class="hero-location-kicker">LEÓN, MX · UTC-6</span>
+          <span class="hero-location-kicker">LEÓN, MX · <span id="local-time">UTC-6</span></span>
         </div>
 
-        <h1 class="hero-name">Chrystian Lozano</h1>
+        <div class="hero-title-block">
+          <h1 class="hero-name">Chrystian Lozano</h1>
+          <p class="hero-editorial-sub">Arquitectura de software, interfaces de precisión &amp; sistemas de datos.</p>
+        </div>
 
         <p class="hero-lead">
-          Ingeniero en Sistemas Computacionales enfocado en interfaces web de alto rendimiento, automatización de procesos y
-          arquitecturas basadas en datos. Construcción de productos digitales con velocidad extrema, minimalismo
-          estructural y fiabilidad técnica.
+          Ingeniero en Sistemas Computacionales enfocado en aplicaciones web de alto rendimiento, automatización de procesos e inteligencia artificial en cliente. Construcción de productos digitales con velocidad medible, minimalismo estructural y rigor técnico.
         </p>
 
-        <!-- Bento Micro-Specs Grid -->
+        <!-- Architectural Specification Ledger -->
         <div class="hero-bento-specs">
           <div class="bento-spec-card">
             <span class="spec-kicker">01 / Especialidad</span>
             <div class="spec-highlight">Big Data &amp; Cloud</div>
-            <p class="spec-desc">Modelado, pipelines de datos y analítica escalable por la UVEG.</p>
+            <p class="spec-desc">Modelado dimensional, pipelines ETL y analítica escalable por la UVEG.</p>
           </div>
 
           <div class="bento-spec-card">
             <span class="spec-kicker">02 / Frontend Core</span>
             <div class="spec-highlight">React · Astro · WebGL</div>
-            <p class="spec-desc">Interfaces reactivas, Server-Side Rendering y 3D interactivo en tiempo real.</p>
+            <p class="spec-desc">Interfaces reactivas, arquitectura de islas y gráficos 3D en tiempo real.</p>
           </div>
 
           <div class="bento-spec-card">
             <span class="spec-kicker">03 / Automatización</span>
-            <div class="spec-highlight">n8n · Python · APIs</div>
-            <p class="spec-desc">Orquestación de flujos de trabajo, web scraping y agentes autónomos.</p>
+            <div class="spec-highlight">n8n · Python · WebGPU</div>
+            <p class="spec-desc">Orquestación de flujos, procesamiento geoespacial e inferencia local.</p>
           </div>
 
           <div class="bento-spec-card">
             <span class="spec-kicker">04 / Rendimiento</span>
-            <div class="spec-highlight">Core Web Vitals 95+</div>
+            <div class="spec-highlight">Core Web Vitals 98+</div>
             <p class="spec-desc">Código tipado, accesible y optimizado para entornos de producción.</p>
           </div>
         </div>
@@ -269,10 +273,12 @@
         <div class="hero-actions">
           <a href="#sec-projects" class="btn-primary" id="btn-explore-projects">
             <span>Explorar Proyectos</span>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <polyline points="19 12 12 19 5 12"></polyline>
-            </svg>
+            <span class="btn-icon-circle">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <polyline points="19 12 12 19 5 12"></polyline>
+              </svg>
+            </span>
           </a>
           <a href="https://github.com/chrystianlozano" target="_blank" rel="noopener noreferrer" class="btn-secondary">
             <span>GitHub</span>

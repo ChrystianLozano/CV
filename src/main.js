@@ -11,21 +11,44 @@ const preloaderStatus = document.getElementById('preloader-status');
 if (preloader) {
   let progress = 0;
   const interval = setInterval(() => {
-    progress += Math.floor(Math.random() * 20) + 10;
+    progress += Math.floor(Math.random() * 24) + 14;
     if (progress >= 100) {
       progress = 100;
       clearInterval(interval);
       setTimeout(() => {
         preloader.classList.add('loaded');
-      }, 150);
+      }, 120);
     }
     if (preloaderBar) preloaderBar.style.width = `${progress}%`;
     if (preloaderStatus) preloaderStatus.textContent = `${progress}%`;
-  }, 25);
+  }, 22);
 }
 
 // ==========================================================================
-// 2. WebGL 3D Scene Initialization
+// 2. Live Local Clock (León, MX · America/Mexico_City)
+// ==========================================================================
+const localTimeEl = document.getElementById('local-time');
+if (localTimeEl) {
+  const updateClock = () => {
+    try {
+      const now = new Date();
+      const formatted = new Intl.DateTimeFormat('es-MX', {
+        timeZone: 'America/Mexico_City',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      }).format(now);
+      localTimeEl.textContent = `${formatted} CST (UTC-6)`;
+    } catch {
+      localTimeEl.textContent = 'UTC-6';
+    }
+  };
+  updateClock();
+  setInterval(updateClock, 30000);
+}
+
+// ==========================================================================
+// 3. WebGL 3D Scene Initialization
 // ==========================================================================
 const canvas = document.querySelector('#webgl');
 let scene3D = null;
@@ -40,7 +63,7 @@ try {
     scene3D = new Cyber3DScene(canvas);
   }
 } catch (error) {
-  console.warn("WebGL initialization note:", error);
+  console.warn('WebGL initialization note:', error);
   const warningBanner = document.getElementById('webgl-warning');
   if (warningBanner) {
     warningBanner.style.display = 'block';
@@ -57,23 +80,24 @@ try {
 }
 
 // ==========================================================================
-// 3. Navigation & Scroll Spying
+// 4. Navigation & Scroll Spying
 // ==========================================================================
 const sections = document.querySelectorAll('.portfolio-section');
 const navLinks = document.querySelectorAll('.nav-link');
 const menuToggleBtn = document.querySelector('#mobile-toggle');
 let activeSectionIndex = 0;
 
-// Smooth Section Navigation
-navLinks.forEach((link) => {
-  link.addEventListener('click', (e) => {
-    const targetId = link.getAttribute('href');
-    if (targetId && targetId.startsWith('#')) {
-      e.preventDefault();
+// Smooth Section Navigation for nav links & Hero CTA
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  anchor.addEventListener('click', (e) => {
+    const targetId = anchor.getAttribute('href');
+    if (targetId && targetId.length > 1) {
       const targetSection = document.querySelector(targetId);
       if (targetSection) {
+        e.preventDefault();
         targetSection.scrollIntoView({ behavior: 'smooth' });
         document.body.classList.remove('mobile-nav-active');
+        if (menuToggleBtn) menuToggleBtn.setAttribute('aria-expanded', 'false');
       }
     }
   });
@@ -92,6 +116,7 @@ document.addEventListener('click', (e) => {
   if (document.body.classList.contains('mobile-nav-active')) {
     if (!e.target.closest('#nav-menu') && !e.target.closest('#mobile-toggle')) {
       document.body.classList.remove('mobile-nav-active');
+      if (menuToggleBtn) menuToggleBtn.setAttribute('aria-expanded', 'false');
     }
   }
 });
@@ -107,7 +132,7 @@ const sectionObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
       entry.target.classList.add('reveal-visible');
-      
+
       const id = entry.target.id;
       let index = 0;
       if (id === 'sec-home') index = 0;
@@ -139,13 +164,26 @@ const sectionObserver = new IntersectionObserver((entries) => {
 
 sections.forEach((sec) => sectionObserver.observe(sec));
 
-// Reveal hero immediately if in view
 if (sections[0]) {
   sections[0].classList.add('reveal-visible');
 }
 
 // ==========================================================================
-// 4. Project Category Filtering & Media Handling
+// 5. Subtle Cursor Spotlight on Bento Cards
+// ==========================================================================
+const bentoCards = document.querySelectorAll('.bento-card');
+bentoCards.forEach((card) => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty('--mouse-x', `${x}px`);
+    card.style.setProperty('--mouse-y', `${y}px`);
+  });
+});
+
+// ==========================================================================
+// 6. Project Category Filtering & Media Handling
 // ==========================================================================
 const filterChips = document.querySelectorAll('.filter-chip');
 const projectCards = document.querySelectorAll('.project-card');
@@ -154,11 +192,9 @@ filterChips.forEach((chip) => {
   chip.addEventListener('click', () => {
     const filter = chip.getAttribute('data-filter');
 
-    // Update active chip UI
-    filterChips.forEach(c => c.classList.remove('active'));
+    filterChips.forEach((c) => c.classList.remove('active'));
     chip.classList.add('active');
 
-    // Filter project cards
     projectCards.forEach((card) => {
       const category = card.getAttribute('data-category');
       if (filter === 'all' || category === filter) {
@@ -171,29 +207,31 @@ filterChips.forEach((chip) => {
 });
 
 // Project Videos Lazy Loading & Play-on-view / Play-on-hover
-const videoObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    const video = entry.target;
-    if (entry.isIntersecting) {
-      if (!video.src && video.dataset.src) {
-        video.src = video.dataset.src;
-        video.load();
+const videoObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      const video = entry.target;
+      if (entry.isIntersecting) {
+        if (!video.src && video.dataset.src) {
+          video.src = video.dataset.src;
+          video.load();
+        }
+        video.play().catch(() => {});
+      } else {
+        if (video.src) {
+          video.pause();
+        }
       }
-      video.play().catch(() => {});
-    } else {
-      if (video.src) {
-        video.pause();
-      }
-    }
-  });
-}, { threshold: 0.25 });
+    });
+  },
+  { threshold: 0.25 }
+);
 
 projectCards.forEach((card) => {
   const video = card.querySelector('video');
   if (video) {
     videoObserver.observe(video);
 
-    // Hover acceleration
     card.addEventListener('mouseenter', () => {
       if (!video.src && video.dataset.src) {
         video.src = video.dataset.src;
@@ -205,7 +243,7 @@ projectCards.forEach((card) => {
 });
 
 // ==========================================================================
-// 5. Project Details Modal Mechanics (Emil Kowalski Modal Architecture)
+// 7. Project Details Modal Mechanics
 // ==========================================================================
 const modal = document.querySelector('#project-modal');
 const modalCloseBtn = document.querySelector('#modal-close-btn');
@@ -230,7 +268,6 @@ const openModal = (card) => {
   if (modalMetaTag) modalMetaTag.textContent = meta;
   if (modalDesc) modalDesc.textContent = desc;
 
-  // External visit button
   if (modalLinkBtn) {
     if (linkUrl) {
       modalLinkBtn.href = linkUrl;
@@ -241,7 +278,6 @@ const openModal = (card) => {
     }
   }
 
-  // Populate media inside modal
   if (modalMedia) {
     modalMedia.innerHTML = '';
     if (mediaPath.endsWith('.mp4') || mediaPath.endsWith('.webm')) {
@@ -284,10 +320,8 @@ const closeModal = () => {
   }, 250);
 };
 
-// Bind card click triggers
 projectCards.forEach((card) => {
   card.addEventListener('click', (e) => {
-    // Avoid opening modal if clicking direct external visit link
     if (e.target.closest('.btn-card-visit')) return;
     openModal(card);
   });
@@ -304,7 +338,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ==========================================================================
-// 6. Direct Email Copy Feedback (Micro-interaction)
+// 8. Direct Email Copy Feedback
 // ==========================================================================
 const copyEmailBtn = document.getElementById('btn-copy-email');
 
@@ -326,7 +360,7 @@ if (copyEmailBtn) {
       const copyText = copyEmailBtn.querySelector('.copy-text');
       if (copyText) {
         const originalText = copyText.textContent;
-        copyText.textContent = '¡Copiado!';
+        copyText.textContent = 'Copiado';
         copyEmailBtn.classList.add('copied');
 
         setTimeout(() => {
