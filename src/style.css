@@ -979,7 +979,7 @@ body.mobile-nav-active .mobile-toggle span:nth-child(2) {
    -------------------------------------------------------------------------- */
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
 }
 
@@ -989,6 +989,13 @@ body.mobile-nav-active .mobile-toggle span:nth-child(2) {
   border-radius: var(--radius-md);
   padding: 1.75rem 1.85rem;
   box-shadow: var(--shadow-rest);
+  transition: border-color 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .skill-column:hover {
+    border-color: var(--border-medium);
+  }
 }
 
 .skill-col-header {
