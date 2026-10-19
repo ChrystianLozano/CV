@@ -1,31 +1,7 @@
 import './style.css';
-import { Cyber3DScene } from './three-scene.js';
 
 // ==========================================================================
-// 1. Sleek Preloader Logic
-// ==========================================================================
-const preloader = document.getElementById('preloader');
-const preloaderBar = document.getElementById('preloader-bar');
-const preloaderStatus = document.getElementById('preloader-status');
-
-if (preloader) {
-  let progress = 0;
-  const interval = setInterval(() => {
-    progress += Math.floor(Math.random() * 24) + 14;
-    if (progress >= 100) {
-      progress = 100;
-      clearInterval(interval);
-      setTimeout(() => {
-        preloader.classList.add('loaded');
-      }, 120);
-    }
-    if (preloaderBar) preloaderBar.style.width = `${progress}%`;
-    if (preloaderStatus) preloaderStatus.textContent = `${progress}%`;
-  }, 22);
-}
-
-// ==========================================================================
-// 2. Live Local Clock (León, MX · America/Mexico_City)
+// 1. Live Local Time (Guanajuato, MX · America/Mexico_City)
 // ==========================================================================
 const localTimeEl = document.getElementById('local-time');
 if (localTimeEl) {
@@ -38,9 +14,9 @@ if (localTimeEl) {
         minute: '2-digit',
         hour12: false
       }).format(now);
-      localTimeEl.textContent = `${formatted} CST (UTC-6)`;
+      localTimeEl.textContent = `${formatted} CST`;
     } catch {
-      localTimeEl.textContent = 'UTC-6';
+      localTimeEl.textContent = 'CST';
     }
   };
   updateClock();
@@ -48,46 +24,12 @@ if (localTimeEl) {
 }
 
 // ==========================================================================
-// 3. WebGL 3D Scene Initialization
-// ==========================================================================
-const canvas = document.querySelector('#webgl');
-let scene3D = null;
-
-try {
-  if (canvas) {
-    const canvasTest = document.createElement('canvas');
-    const gl = canvasTest.getContext('webgl') || canvasTest.getContext('experimental-webgl');
-    if (!gl) {
-      throw new Error('WebGL context not supported.');
-    }
-    scene3D = new Cyber3DScene(canvas);
-  }
-} catch (error) {
-  console.warn('WebGL initialization note:', error);
-  const warningBanner = document.getElementById('webgl-warning');
-  if (warningBanner) {
-    warningBanner.style.display = 'block';
-  }
-  document.body.classList.add('no-webgl');
-
-  const closeWarningBtn = document.getElementById('close-warning-btn');
-  if (closeWarningBtn && warningBanner) {
-    closeWarningBtn.addEventListener('click', () => {
-      warningBanner.style.display = 'none';
-      document.body.classList.remove('no-webgl');
-    });
-  }
-}
-
-// ==========================================================================
-// 4. Navigation & Scroll Spying
+// 2. Smooth Navigation & Mobile Menu
 // ==========================================================================
 const sections = document.querySelectorAll('.portfolio-section');
 const navLinks = document.querySelectorAll('.nav-link');
-const menuToggleBtn = document.querySelector('#mobile-toggle');
-let activeSectionIndex = 0;
+const menuToggleBtn = document.getElementById('mobile-toggle');
 
-// Smooth Section Navigation for nav links & Hero CTA
 document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   anchor.addEventListener('click', (e) => {
     const targetId = anchor.getAttribute('href');
@@ -103,7 +45,6 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   });
 });
 
-// Mobile Menu Toggle
 if (menuToggleBtn) {
   menuToggleBtn.addEventListener('click', () => {
     const isExpanded = document.body.classList.toggle('mobile-nav-active');
@@ -111,7 +52,6 @@ if (menuToggleBtn) {
   });
 }
 
-// Close mobile menu on click outside
 document.addEventListener('click', (e) => {
   if (document.body.classList.contains('mobile-nav-active')) {
     if (!e.target.closest('#nav-menu') && !e.target.closest('#mobile-toggle')) {
@@ -121,84 +61,129 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// Scroll Spying (Section Reveal & 3D Scene Morph Synchronization)
-const sectionObserverOptions = {
-  root: null,
-  rootMargin: '-20% 0px -40% 0px',
-  threshold: 0
-};
+// Active Navigation Link via IntersectionObserver
+const navSpyObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        let index = 0;
+        if (id === 'sec-home') index = 0;
+        else if (id === 'sec-projects') index = 1;
+        else if (id === 'sec-education') index = 2;
+        else if (id === 'sec-skills') index = 3;
+        else if (id === 'sec-contact') index = 4;
 
-const sectionObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('reveal-visible');
-
-      const id = entry.target.id;
-      let index = 0;
-      if (id === 'sec-home') index = 0;
-      else if (id === 'sec-projects') index = 1;
-      else if (id === 'sec-education') index = 2;
-      else if (id === 'sec-skills') index = 3;
-      else if (id === 'sec-contact' || id === 'sec-faq') index = 4;
-
-      if (activeSectionIndex !== index) {
-        activeSectionIndex = index;
-
-        // Sync header nav active link
         navLinks.forEach((link) => {
-          if (parseInt(link.getAttribute('data-section'), 10) === index) {
-            link.classList.add('active');
-          } else {
-            link.classList.remove('active');
-          }
+          const linkIndex = parseInt(link.getAttribute('data-section'), 10);
+          link.classList.toggle('active', linkIndex === index);
         });
-
-        // Trigger 3D scene camera and color transitions
-        if (scene3D) {
-          scene3D.setSection(index);
-        }
       }
-    }
-  });
-}, sectionObserverOptions);
+    });
+  },
+  {
+    rootMargin: '-25% 0px -55% 0px',
+    threshold: 0
+  }
+);
 
-sections.forEach((sec) => sectionObserver.observe(sec));
-
-if (sections[0]) {
-  sections[0].classList.add('reveal-visible');
-}
+sections.forEach((sec) => navSpyObserver.observe(sec));
 
 // ==========================================================================
-// 5. Subtle Cursor Spotlight on Bento Cards
+// 3. Subtle Scroll Reveal Animations (IntersectionObserver)
 // ==========================================================================
-const bentoCards = document.querySelectorAll('.bento-card');
-bentoCards.forEach((card) => {
-  card.addEventListener('mousemove', (e) => {
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    card.style.setProperty('--mouse-x', `${x}px`);
-    card.style.setProperty('--mouse-y', `${y}px`);
+const revealSections = document.querySelectorAll('.reveal-section');
+const revealItems = document.querySelectorAll('.reveal-item');
+
+const revealSectionObserver = new IntersectionObserver(
+  (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+);
+
+revealSections.forEach((section) => revealSectionObserver.observe(section));
+
+// Group reveal items per section so their stagger index is local and gentle
+document.querySelectorAll('.portfolio-section').forEach((section) => {
+  const items = section.querySelectorAll('.reveal-item');
+  items.forEach((item, idx) => {
+    // Cap delay so items never feel slow
+    const delayMs = Math.min(idx % 4, 3) * 65;
+    item.style.setProperty('--reveal-delay', `${delayMs}ms`);
   });
 });
 
+const revealItemObserver = new IntersectionObserver(
+  (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }
+);
+
+revealItems.forEach((item) => revealItemObserver.observe(item));
+
 // ==========================================================================
-// 6. Project Category Filtering & Media Handling
+// 4. Project Category Filtering & Sliding Pill Indicator
 // ==========================================================================
+const filterBar = document.querySelector('.project-filter-bar');
 const filterChips = document.querySelectorAll('.filter-chip');
 const projectCards = document.querySelectorAll('.project-card');
+
+const updateFilterIndicator = (activeChip) => {
+  if (!filterBar || !activeChip) return;
+  const x = activeChip.offsetLeft;
+  const w = activeChip.offsetWidth;
+  filterBar.style.setProperty('--pill-x', `${x}px`);
+  filterBar.style.setProperty('--pill-w', `${w}px`);
+};
+
+// Initialize indicator position once fonts/layout settle
+const initIndicator = () => {
+  const activeChip = document.querySelector('.filter-chip.active');
+  if (activeChip) updateFilterIndicator(activeChip);
+};
+
+window.addEventListener('load', initIndicator);
+window.addEventListener('resize', initIndicator);
+initIndicator();
 
 filterChips.forEach((chip) => {
   chip.addEventListener('click', () => {
     const filter = chip.getAttribute('data-filter');
 
-    filterChips.forEach((c) => c.classList.remove('active'));
-    chip.classList.add('active');
+    filterChips.forEach((c) => {
+      const isTarget = c === chip;
+      c.classList.toggle('active', isTarget);
+      c.setAttribute('aria-selected', isTarget.toString());
+    });
 
+    updateFilterIndicator(chip);
+
+    let visibleIndex = 0;
     projectCards.forEach((card) => {
       const category = card.getAttribute('data-category');
-      if (filter === 'all' || category === filter) {
+      const matches = filter === 'all' || category === filter;
+
+      card.classList.remove('filtering-in');
+      if (matches) {
         card.classList.remove('hidden');
+        card.classList.add('is-visible');
+        // Force reflow so the subtle entry animation replays cleanly
+        void card.offsetWidth;
+        card.style.setProperty('--filter-delay', `${Math.min(visibleIndex * 45, 180)}ms`);
+        card.classList.add('filtering-in');
+        visibleIndex++;
       } else {
         card.classList.add('hidden');
       }
@@ -206,7 +191,9 @@ filterChips.forEach((chip) => {
   });
 });
 
-// Project Videos Lazy Loading & Play-on-view / Play-on-hover
+// ==========================================================================
+// 5. Project Videos Lazy Loading & Play-on-View
+// ==========================================================================
 const videoObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -217,10 +204,8 @@ const videoObserver = new IntersectionObserver(
           video.load();
         }
         video.play().catch(() => {});
-      } else {
-        if (video.src) {
-          video.pause();
-        }
+      } else if (video.src) {
+        video.pause();
       }
     });
   },
@@ -243,17 +228,17 @@ projectCards.forEach((card) => {
 });
 
 // ==========================================================================
-// 7. Project Details Modal Mechanics
+// 6. Project Details Modal
 // ==========================================================================
-const modal = document.querySelector('#project-modal');
-const modalCloseBtn = document.querySelector('#modal-close-btn');
-const modalDismissBtn = document.querySelector('#modal-dismiss-btn');
-const modalBackdrop = document.querySelector('#modal-backdrop');
-const modalMedia = document.querySelector('#modal-media');
-const modalTitle = document.querySelector('#modal-title');
-const modalMetaTag = document.querySelector('#modal-meta-tag');
-const modalDesc = document.querySelector('#modal-description');
-const modalLinkBtn = document.querySelector('#modal-link-btn');
+const modal = document.getElementById('project-modal');
+const modalCloseBtn = document.getElementById('modal-close-btn');
+const modalDismissBtn = document.getElementById('modal-dismiss-btn');
+const modalBackdrop = document.getElementById('modal-backdrop');
+const modalMedia = document.getElementById('modal-media');
+const modalTitle = document.getElementById('modal-title');
+const modalMetaTag = document.getElementById('modal-meta-tag');
+const modalDesc = document.getElementById('modal-description');
+const modalLinkBtn = document.getElementById('modal-link-btn');
 
 const openModal = (card) => {
   if (!modal) return;
@@ -317,12 +302,12 @@ const closeModal = () => {
       if (vid) vid.pause();
       modalMedia.innerHTML = '';
     }
-  }, 250);
+  }, 240);
 };
 
 projectCards.forEach((card) => {
   card.addEventListener('click', (e) => {
-    if (e.target.closest('.btn-card-visit')) return;
+    if (e.target.closest('.btn-link-external')) return;
     openModal(card);
   });
 });
@@ -338,7 +323,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ==========================================================================
-// 8. Direct Email Copy Feedback
+// 7. Direct Email Copy Feedback
 // ==========================================================================
 const copyEmailBtn = document.getElementById('btn-copy-email');
 
@@ -359,12 +344,11 @@ if (copyEmailBtn) {
 
       const copyText = copyEmailBtn.querySelector('.copy-text');
       if (copyText) {
-        const originalText = copyText.textContent;
-        copyText.textContent = 'Copiado';
+        copyText.textContent = 'Copiado ✓';
         copyEmailBtn.classList.add('copied');
 
         setTimeout(() => {
-          copyText.textContent = originalText;
+          copyText.textContent = 'Copiar';
           copyEmailBtn.classList.remove('copied');
         }, 2000);
       }
