@@ -246,7 +246,7 @@
           <div class="project-filter-bar" role="tablist" aria-label="Filtrar proyectos por categoría">
             <div class="filter-pill-indicator" id="filter-indicator" aria-hidden="true"></div>
             <button class="filter-chip active" data-filter="all" role="tab" aria-selected="true">
-              Todos <span class="filter-count">10</span>
+              Todos <span class="filter-count">11</span>
             </button>
             <button class="filter-chip" data-filter="web" role="tab" aria-selected="false">
               Web <span class="filter-count">5</span>
@@ -255,7 +255,7 @@
               Datos &amp; Mapas <span class="filter-count">2</span>
             </button>
             <button class="filter-chip" data-filter="ai" role="tab" aria-selected="false">
-              IA &amp; Automatización <span class="filter-count">3</span>
+              IA &amp; Automatización <span class="filter-count">4</span>
             </button>
           </div>
         </div>
@@ -326,7 +326,37 @@
             </div>
           </article>
 
-          <!-- 03: Mapa de Rutas de Irapuato -->
+          <!-- 03: Chiaki-UCR para macOS -->
+          <article class="project-card reveal-item" data-category="ai" data-title="Chiaki-UCR para macOS"
+            data-meta="SwiftUI · C++ · Objective-C++ · SDL2 · POSIX IPC"
+            data-description="Sistema nativo de emulación y mapeo de ratón y teclado a control virtual PlayStation DualSense para chiaki-ng en Apple Silicon (M1 a M4).&#10;&#10;• Plugin dinámico C++/Objective-C++ inyectado mediante DYLD_INSERT_LIBRARIES sin requerir controladores de kernel externos.&#10;• Emulación virtual de gamepad a 125 Hz a través de la API SDL_VirtualJoystickDesc de SDL2, logrando latencia imperceptible.&#10;• Motor anti-deadzone configurable para contrarrestar la zona muerta de juegos en PS5, con curvas de respuesta exponencial, multiplicador ADS y suavizado.&#10;• Modo vehículo inteligente (F6) para alternar controles en juegos estilo GTA V (W/S como acelerador/freno analógico R2/L2).&#10;• Panel de control moderno en SwiftUI sincronizado en tiempo real con el plugin mediante memoria compartida POSIX (/tmp/chiaki_ucr_state.shm).&#10;• Captura y liberación fluida del cursor con atajo de teclado en partida (F8 / Option+M)."
+            data-image="13.png" data-link="https://github.com/ChrystianLozano/ChiakiUCR">
+            <div class="project-media">
+              <img src="13.png" loading="lazy" alt="Vista previa de Chiaki-UCR para macOS" />
+            </div>
+            <div class="project-body">
+              <div class="project-meta">
+                <span class="project-tags">SwiftUI · C++ · SDL2 · macOS</span>
+                <span class="project-badge-pastel pastel-blue">Nativo macOS</span>
+              </div>
+              <h3 class="project-title">Chiaki-UCR para macOS</h3>
+              <p class="project-desc">
+                Mapeador nativo de ratón y teclado a DualSense virtual para PS Remote Play en Apple Silicon a 125 Hz con anti-deadzone y SwiftUI.
+              </p>
+              <div class="project-footer">
+                <button class="btn-text-action" type="button">
+                  <span>Ver detalles</span>
+                </button>
+                <a href="https://github.com/ChrystianLozano/ChiakiUCR" target="_blank" rel="noopener noreferrer"
+                  class="btn-link-external">
+                  <span>Ver repositorio</span>
+                  <span class="arrow-glyph">↗</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- 04: Mapa de Rutas de Irapuato -->
           <article class="project-card reveal-item" data-category="data" data-title="Mapa de Rutas de Irapuato"
             data-meta="JavaScript · Leaflet.js · OpenStreetMap · Python · GIS"
             data-description="Aplicación web interactiva para visualizar y simular recorridos de transporte público en tiempo real sobre una interfaz limpia y clara.&#10;&#10;• Integración de Leaflet.js y OpenStreetMap para mostrar trazados y paradas.&#10;• Simulación en JavaScript del movimiento de unidades con cálculo de dirección y paradas.&#10;• Limpieza y conversión de datos geográficos de KML/XLSX a GeoJSON utilizando scripts en Python."
@@ -351,7 +381,7 @@
             </div>
           </article>
 
-          <!-- 04: Irapuato Seguro -->
+          <!-- 05: Irapuato Seguro -->
           <article class="project-card reveal-item" data-category="data" data-title="Irapuato Seguro"
             data-meta="Python · Leaflet.js · Chart.js · JavaScript · ETL"
             data-description="Portal de consulta y visualización de datos de seguridad pública basados en registros oficiales del SESNSP. Desarrollé scripts ETL en Python para limpiar, organizar y geolocalizar más de 39,000 registros históricos, presentándolos en un mapa interactivo con Leaflet.js y gráficas claras con Chart.js."
@@ -376,7 +406,7 @@
             </div>
           </article>
 
-          <!-- 05: Thumbnail Battle -->
+          <!-- 06: Thumbnail Battle -->
           <article class="project-card reveal-item" data-category="web" data-title="Thumbnail Battle"
             data-meta="Astro · TailwindCSS · UX Tool"
             data-description="Herramienta web pensada para creadores de contenido en YouTube. Construida con Astro y Tailwind CSS, permite previsualizar y comparar miniaturas lado a lado en distintos contextos antes de publicarlas para elegir el diseño más claro y atractivo."
@@ -405,7 +435,7 @@
             </div>
           </article>
 
-          <!-- 06: Portal SGC Instituto Irapuato -->
+          <!-- 07: Portal SGC Instituto Irapuato -->
           <article class="project-card reveal-item" data-category="web" data-tone="grayscale"
             data-title="Portal SGC · Instituto Irapuato" data-meta="React.js · Firebase · Tailwind CSS"
             data-description="Desarrollé un portal web para modernizar y facilitar el acceso al Sistema de Gestión de Calidad (SGC) del área de servicios escolares. Incluye control de acceso con Firebase Authentication, gestión de documentos en tiempo real y una interfaz clara en React y Tailwind CSS."
@@ -429,7 +459,7 @@
             </div>
           </article>
 
-          <!-- 07: mudo.games -->
+          <!-- 08: mudo.games -->
           <article class="project-card reveal-item" data-category="ai" data-title="mudo.games"
             data-meta="Astro · JavaScript · YouTube RSS · GitHub Actions"
             data-description="Sitio web automatizado para publicar contenido de video. Consume feeds RSS de YouTube y utiliza tareas programadas en GitHub Actions para actualizar y desplegar la página de manera automática cada vez que hay nuevo contenido, sin necesidad de mantenimiento manual."
@@ -457,7 +487,7 @@
             </div>
           </article>
 
-          <!-- 08: Inscripción Digital -->
+          <!-- 09: Inscripción Digital -->
           <article class="project-card reveal-item" data-category="ai" data-tone="grayscale"
             data-title="Inscripción Digital · Instituto Irapuato" data-meta="React.js · JavaScript · PDF en cliente"
             data-description="Sistema web para agilizar el proceso de inscripciones escolares en el Instituto Irapuato. Automatizó el llenado de solicitudes y la generación de contratos en formato PDF directamente desde el navegador, reduciendo tiempos de espera y errores de captura en ventanilla."
@@ -481,7 +511,7 @@
             </div>
           </article>
 
-          <!-- 09: Web CAE León -->
+          <!-- 10: Web CAE León -->
           <article class="project-card reveal-item" data-category="web" data-tone="grayscale"
             data-title="Web CAE León" data-meta="Astro · Tailwind CSS · SEO"
             data-description="Sitio web informativo para el Centro de Atención Especial (CAE León). Desarrollado con Astro y Tailwind CSS priorizando una lectura clara, carga inmediata en dispositivos móviles y un posicionamiento orgánico limpio en buscadores."
@@ -505,7 +535,7 @@
             </div>
           </article>
 
-          <!-- 10: Web Instituto Irapuato -->
+          <!-- 11: Web Instituto Irapuato -->
           <article class="project-card reveal-item" data-category="web" data-tone="grayscale"
             data-title="Web Instituto Irapuato" data-meta="HTML · CSS · Bootstrap · JavaScript"
             data-description="Rediseño y optimización del portal principal del Instituto Irapuato. Se reorganizó la oferta educativa y los accesos para alumnos y docentes, logrando una navegación más intuitiva, mejor adaptación a pantallas móviles y menor tiempo de carga."
@@ -768,6 +798,10 @@
               <h3 class="skill-col-title">Automatización &amp; Entornos</h3>
             </div>
             <ul class="skill-list">
+              <li>
+                <span class="skill-item-name">SwiftUI, C++ &amp; macOS</span>
+                <span class="skill-item-detail">Desarrollo nativo Apple Silicon, inyección de librerías y emulación con SDL2</span>
+              </li>
               <li>
                 <span class="skill-item-name">n8n &amp; Google Apps Script</span>
                 <span class="skill-item-detail">Automatización de tareas repetitivas e integración de APIs</span>
